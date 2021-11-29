@@ -88,6 +88,18 @@ void showBottomSheet(BuildContext context) => showModalBottomSheet(
                     print(MediaQuery.of(context).viewInsets.bottom);
                   },
                 ),
+              if (addingIng == false)
+                OutlinedButton(
+                  key: Key("Add Ingredients Btn"),
+                  onPressed: () {
+                    print("0");
+                    setModalState(() {
+                      _Field = true;
+                      addingIng = true;
+                      print("1");
+                    });
+                  },
+                  child: Text('Add Ingredients')),
               if (addingIng == true)
                 Container(
                   width: MediaQuery.of(ctx).size.width,
@@ -193,8 +205,8 @@ void showBottomSheet(BuildContext context) => showModalBottomSheet(
                         onPressed: () {
                           print("0");
                           setModalState(() {
-                            _Field = true;
-                            addingIng = true;
+                            _Field = false;
+                            addingIng = false;
                             print("1");
                           });
                         },
@@ -208,8 +220,7 @@ void showBottomSheet(BuildContext context) => showModalBottomSheet(
                         onPressed: () {
                           print("0");
                           setModalState(() {
-                            _Field = true;
-                            addingIng = true;
+                            addIng(ctx, IngSearchCont.text, int.parse(amountCont.text.toString()).toDouble(), dropdownValue.toString());
                             print("1");
                           });
                         },
