@@ -88,18 +88,6 @@ void showBottomSheet(BuildContext context) => showModalBottomSheet(
                     print(MediaQuery.of(context).viewInsets.bottom);
                   },
                 ),
-              if (_Field == false)
-                OutlinedButton(
-                    key: Key("Add Ingredients Btn"),
-                    onPressed: () {
-                      print("0");
-                      setModalState(() {
-                        _Field = true;
-                        addingIng = true;
-                        print("1");
-                      });
-                    },
-                    child: Text('Add Ingredients')),
               if (addingIng == true)
                 Container(
                   width: MediaQuery.of(ctx).size.width,
@@ -195,6 +183,39 @@ void showBottomSheet(BuildContext context) => showModalBottomSheet(
                       dropdownValue = value!;
                     });
                   },
+                ),
+              if (_Field == true)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    OutlinedButton(
+                        key: Key("Cancel Btn"),
+                        onPressed: () {
+                          print("0");
+                          setModalState(() {
+                            _Field = true;
+                            addingIng = true;
+                            print("1");
+                          });
+                        },
+                        style: ButtonStyle(
+                          foregroundColor: MaterialStateProperty.all(Colors.red),
+                        ),
+                        child: Text('Cancel')
+                    ),
+                    OutlinedButton(
+                        key: Key("Add Ingredients Btn"),
+                        onPressed: () {
+                          print("0");
+                          setModalState(() {
+                            _Field = true;
+                            addingIng = true;
+                            print("1");
+                          });
+                        },
+                        child: Text('Add Ingredients')
+                    ),
+                  ],
                 ),
               Wrap(
                 spacing: 6.0,

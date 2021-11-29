@@ -46,3 +46,25 @@ Future<void> addRecipe (BuildContext context, String name, String description, S
 }
 
 
+
+Future<void> addIng (BuildContext context, String name, double amount, String unit) async {
+  if (name != ""&&amount != ""&&unit != "") {
+    IngBox.put(name, Ingredient(name: name, amount: amount, unit: unit, ));
+
+    nameCont.text = "";descriptionCont.text = "";
+    categoryCont.text = "";idCont.text = "";
+
+    print('''
+    $name
+    $amount
+    $unit''');
+    //Navigator.push(context, PageRouteBuilder(pageBuilder: (context, animation, secondaryAnimation) =>  HomePage()));
+  }
+  else {
+    Get.snackbar(
+        "There's Empty Fields",
+        'To Continue Please Fill All The Available Fields',
+        snackPosition: SnackPosition.BOTTOM
+    );
+  }
+}

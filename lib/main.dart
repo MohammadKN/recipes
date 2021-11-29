@@ -17,8 +17,8 @@ var nameCont = TextEditingController();
 var idCont = TextEditingController();
 List<String> units = ['Cup', 'TableSpoon', 'Spoon', 'Liter',
                         'MilliLiter', 'Packet', 'Kilogram','Gram'];
-List<Ingredient> ingredientsArr = [];
 List recipesArr = [];
+List<Ingredient> ingredientsArr = [];
 late Box RecipesBox;
 late Box IngBox;
 
