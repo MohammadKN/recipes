@@ -15,7 +15,7 @@ var unitCont = TextEditingController();
 var categoryCont = TextEditingController();
 var nameCont = TextEditingController();
 var idCont = TextEditingController();
-List<String> units = ['Cup', 'TableSpoon', 'Spoon', 'Liter',
+List<String> units = ['Cup', 'TableSpoon', 'Spoon', 'Liter', 'Pinch',
                         'MilliLiter', 'Packet', 'Kilogram','Gram'];
 List recipesArr = [];
 List<Ingredient> ingredientsArr = [];

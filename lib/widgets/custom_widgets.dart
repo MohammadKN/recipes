@@ -37,7 +37,7 @@ Widget AddIngField() {
 
 bool addingIng = false;
 bool _Field = false;
-Color _clearBtnColor = Colors.black26;
+String dropdownValue = 'Kilogram';
 void showBottomSheet(BuildContext context) => showModalBottomSheet(
     //enableDrag: true,
     isScrollControlled: true,
@@ -45,7 +45,6 @@ void showBottomSheet(BuildContext context) => showModalBottomSheet(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(15))),
     builder: (_) {
       return StatefulBuilder(builder: (BuildContext ctx, StateSetter setModalState) {
-        var dropdownValue;
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 15, vertical: 25),
           child: Column(
@@ -101,100 +100,83 @@ void showBottomSheet(BuildContext context) => showModalBottomSheet(
                   },
                   child: Text('Add Ingredients')),
               if (addingIng == true)
+                Wrap(
+                  alignment: WrapAlignment.start,
+                  spacing: 6,
+                  runSpacing: -8,
+                  children: IngBox.values.map((item) => IngChip(setModalState,
+                      "https://cdn.loveandlemons.com/wp-content/uploads/2020/03/how-to-cook-rice.jpg"
+                      ,item.name, item.amount.toString(), item.unit )).toList().cast<Widget>(),
+                  //
+
+                ),
+              if (addingIng == true)
                 Container(
                   width: MediaQuery.of(ctx).size.width,
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Expanded(
-                        flex: 10,
+                        flex: 8,
                         child: TextField(
                           controller: IngSearchCont,
                           textInputAction: TextInputAction.next,
                           key: Key("Ingredient Name Field"),
                           decoration: InputDecoration(
                             hintText: 'Ingredient Name',
-                            suffixIcon: IconButton(
-                              onPressed: () {
-                                setModalState(() {
-                                  _Field = false;
-                                  addingIng = false;
-                                  IngSearchCont.clear();
-                                });
-                              },
-                              icon: Icon(
-                                Icons.clear,
-                                color: _clearBtnColor,
-                              ),
-                            ),
                           ),
                           onEditingComplete: () {
                             setModalState(() {
-                              var s = 5;
                             });
                           },
                         ),
                       ),
-                      Spacer(flex: 2),
+                      Spacer(flex: 1),
                       Expanded(
-                        flex: 10,
+                        flex: 5,
                         child: TextField(
                           controller: amountCont,
                           keyboardType: TextInputType.number,
                           textInputAction: TextInputAction.next,
                           key: Key('Amount Field'),
                           decoration: InputDecoration(
-                            hintText: 'Amount Field',
-                            suffixIcon: IconButton(
-                              onPressed: () {
-                                setModalState(() {
-                                  _Field = false;
-                                  addingIng = false;
-                                  IngSearchCont.clear();
-                                });
-                              },
-                              icon: Icon(
-                                Icons.clear,
-                                color: _clearBtnColor,
-                              ),
-                            ),
+                            hintText: 'Amount',
+
                           ),
-                          onTap: () => addingIng = true,
-                          onEditingComplete: () {
+                        ),
+                      ),
+                      Spacer(flex: 1),
+                      Expanded(
+                        flex: 8,
+                        child: DropdownButton<String>(
+                          focusColor: Colors.white,
+                          value: dropdownValue,
+                          //elevation: 5,
+                          style: TextStyle(color: Colors.white),
+                          iconEnabledColor: Colors.black,
+                          items: units.map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(
+                                value,
+                                style: TextStyle(color: Colors.black),
+                              ),
+                            );
+                          }).toList(),
+                          hint: Text(
+                            dropdownValue,
+                            style: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w500),
+                          ),
+                          onChanged: (String? value) {
                             setModalState(() {
-                              var s = 5;
+                              dropdownValue = value!;
                             });
                           },
                         ),
                       ),
                     ],
                   ),
-                ),
-              if (addingIng == true)
-                DropdownButton<String>(
-                  focusColor: Colors.white,
-                  value: dropdownValue,
-                  //elevation: 5,
-                  style: TextStyle(color: Colors.white),
-                  iconEnabledColor: Colors.black,
-                  items: units.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(
-                        value,
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    );
-                  }).toList(),
-                  hint: Text(
-                    dropdownValue??"unit",
-                    style: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w500),
-                  ),
-                  onChanged: (String? value) {
-                    setModalState(() {
-                      dropdownValue = value!;
-                    });
-                  },
                 ),
               if (_Field == true)
                 Row(
@@ -220,21 +202,16 @@ void showBottomSheet(BuildContext context) => showModalBottomSheet(
                         onPressed: () {
                           print("0");
                           setModalState(() {
-                            addIng(ctx, IngSearchCont.text, int.parse(amountCont.text.toString()).toDouble(), dropdownValue.toString());
+                            addIng(ctx, IngSearchCont.text, double.parse(amountCont.text.toString()).toDouble()
+                                ,dropdownValue.toString());
+
                             print("1");
                           });
                         },
-                        child: Text('Add Ingredients')
+                        child: Text('Add Ingredient')
                     ),
                   ],
                 ),
-              Wrap(
-                spacing: 6.0,
-                runSpacing: 6.0,
-                children: [
-                  // IngChip(setModalState, IngSearchCont.text, amountCont.text, dropdownValue.toString()),
-                ],
-              ),
               if (addingIng == false)
                 ElevatedButton(
                     onPressed: () => addRecipe(context, nameCont.text, descriptionCont.text,
@@ -250,12 +227,13 @@ void showBottomSheet(BuildContext context) => showModalBottomSheet(
       });
     });
 
-Widget IngChip(StateSetter setModalState, String content, String amount, String unit) {
+Widget IngChip(StateSetter setModalState,String imagePath, String content, String amount, String unit) {
   return GestureDetector(
+    onLongPress: () => setModalState(()=>deleteIng(content)),
     child: Chip(
       avatar: CircleAvatar(
+        foregroundImage: NetworkImage(imagePath),
         foregroundColor: Colors.blueAccent,
-        child: Text(content.characters.first),
       ),
       label: Text(content),
       backgroundColor: Colors.grey[300],
