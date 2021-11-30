@@ -3,7 +3,7 @@ part 'recipe.g.dart';
 
 @HiveType(typeId : 1)
 class Recipe {
-      Recipe({ this.name, this.description, this.category, this.ingredients});
+      Recipe({ this.name, this.description, this.category, required this.ingredients});
 
   @HiveField(0)
   String? name;
@@ -15,7 +15,7 @@ class Recipe {
   String? category;
 
   @HiveField(3)
-  List<Ingredient>? ingredients;
+  List<dynamic> ingredients;
 }
 
 @HiveType(typeId : 2)

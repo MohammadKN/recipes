@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:recipes/main.dart';
 import 'package:get/get.dart';
 import 'package:recipes/widgets/custom_widgets.dart';
@@ -11,18 +13,28 @@ Future<void> deleteRecipe (BuildContext context, int i) async {
       axis: Axis.horizontal,
       sizeFactor: animation.drive(Tween<double>(begin: 0.0,end: 1.0)),
       child: GestureDetector(
-          child: homePageTile(customText(0, 0, recipesArr[i].name, Colors.white, 18, FontWeight.bold)
+          child: homePageTile(customText(0, 0, RecipesBox.values.elementAt(i).name, Colors.white, 18, FontWeight.bold)
           )
       ),
     );
   });
   await Future.delayed(Duration(milliseconds: 5));
-  recipesArr.removeAt(i);
   RecipesBox.deleteAt(i);
 }
 
-Future<void> addRecipe (BuildContext context, String name, String description, String category, String id, List<Ingredient> IngredientsArr) async {
+Future<void> addRecipe (BuildContext context, String name, String description, String category, String id, List<dynamic> IngredientsArr) async {
   if (name != ""&&description != ""&&category != ""&&id != "") {
+    CollectionReference recipes = firebaseFirestore.collection('recipes');
+
+    recipes.add({
+      'name': name, // John Doe
+      'description': description, // Stokes and Sons
+      'category': category,
+      'id' : id,
+      'ingredients' : IngredientsArr,
+    }).then((value) => print("Recipe Added"))
+      .catchError((error) => print("Failed To Add Recipe: $error"));
+
     RecipesBox.put(id, Recipe(name: name, description: description, category: category, ingredients: IngredientsArr));
 
     nameCont.text = "";descriptionCont.text = "";

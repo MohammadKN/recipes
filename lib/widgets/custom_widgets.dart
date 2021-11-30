@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:recipes/model/recipe.dart';
 import '../functions.dart';
 import '../../main.dart';
 
@@ -56,7 +57,7 @@ void showBottomSheet(BuildContext context) => showModalBottomSheet(
                   textInputAction: TextInputAction.next,
                   //autofocus: true,
                   decoration: InputDecoration(
-                    hintText: "Title",
+                    hintText: "Name",
                   ),
                   onTap: () {},
                 ),
@@ -65,7 +66,7 @@ void showBottomSheet(BuildContext context) => showModalBottomSheet(
                   controller: descriptionCont,
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
-                    hintText: "Subtitle",
+                    hintText: "Description",
                   ),
                 ),
               if (addingIng == false)
@@ -204,7 +205,11 @@ void showBottomSheet(BuildContext context) => showModalBottomSheet(
                           setModalState(() {
                             addIng(ctx, IngSearchCont.text, double.parse(amountCont.text.toString()).toDouble()
                                 ,dropdownValue.toString());
-
+                            IngSearchCont.clear();
+                            amountCont.clear();
+                            dropdownValue = 'Kilogram';
+                            print(IngBox.values.toString());
+                            print(RecipesBox.values.first.ingredients.toString());
                             print("1");
                           });
                         },
@@ -215,7 +220,7 @@ void showBottomSheet(BuildContext context) => showModalBottomSheet(
               if (addingIng == false)
                 ElevatedButton(
                     onPressed: () => addRecipe(context, nameCont.text, descriptionCont.text,
-                        categoryCont.text, idCont.text, ingredientsArr),
+                        categoryCont.text, idCont.text, IngBox.values.toList()),
                     child: Text("Add Recipe")),
               Padding(
                 padding: EdgeInsets.only(bottom: MediaQuery.of(ctx).viewInsets.bottom),

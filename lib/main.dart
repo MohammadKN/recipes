@@ -1,4 +1,6 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart' hide showBottomSheet;
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart' ;
@@ -8,22 +10,25 @@ import 'model/recipe.dart';
 import 'functions.dart';
 
 
+
+List<String> units = ['Cup', 'TableSpoon', 'Spoon', 'Liter', 'Pinch',
+  'MilliLiter', 'Packet', 'Kilogram','Gram'];
+
 var descriptionCont = TextEditingController();
 var IngSearchCont = TextEditingController();
+var categoryCont = TextEditingController();
 var amountCont = TextEditingController();
 var unitCont = TextEditingController();
-var categoryCont = TextEditingController();
 var nameCont = TextEditingController();
 var idCont = TextEditingController();
-List<String> units = ['Cup', 'TableSpoon', 'Spoon', 'Liter', 'Pinch',
-                        'MilliLiter', 'Packet', 'Kilogram','Gram'];
-List recipesArr = [];
-List<Ingredient> ingredientsArr = [];
+
+FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 late Box RecipesBox;
 late Box IngBox;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await Hive.initFlutter();
   Hive.registerAdapter(IngredientAdapter());
@@ -58,23 +63,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  void onRecipeAdded (){
-    setState(()=>addRecipe(context, nameCont.text, descriptionCont.text, categoryCont.text,
-        idCont.text, ingredientsArr));
-  }
   @override
   Widget build(BuildContext context) {
     print('HomePage rebuilt');
     var sw = MediaQuery.of(context).size.width;
     var sh = MediaQuery.of(context).size.height;
-    ingredientsArr.add(Ingredient(name: "rice", amount: 1, unit: "cup"));
-    //if (ingredientsArr[0].name.isEmpty)
-    //  ingredientsArr[0] = Ingredient(name: "rice", amount: 1, unit: "cup", physicalState: PhysicalState.powder);
-    if (RecipesBox.values.isNotEmpty) {
-      recipesArr = RecipesBox.values.toList();
-      ingredientsArr = IngBox.values.toList().cast<Ingredient> ();
-      print('Recipes got updated');
-    }
+    CollectionReference ingredients = FirebaseFirestore.instance.collection('ingredients');
+
     return SafeArea(
       child: Scaffold(
         key: Key("HomePageKey"),
@@ -104,7 +99,7 @@ class _HomePageState extends State<HomePage> {
                           child: AnimatedList(
                             physics: BouncingScrollPhysics(),
                             scrollDirection: Axis.horizontal,
-                            initialItemCount: recipesArr.length,
+                            initialItemCount: RecipesBox.length,
                             itemBuilder: (BuildContext context, i, animation) {
                               return SlideTransition(
                                 position: animation.drive(Tween(begin: Offset(1.0,0.0),end: Offset.zero)),
@@ -114,7 +109,7 @@ class _HomePageState extends State<HomePage> {
                                         deleteRecipe(context, i);
                                       });
                                     },
-                                    child: homePageTile(customText(0, 0, recipesArr[i].name, Colors.white, 18, FontWeight.bold)
+                                    child: homePageTile(customText(0, 0, RecipesBox.values.elementAt(i).name, Colors.white, 18, FontWeight.bold)
                                     )
                                 ),
                               );

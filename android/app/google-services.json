@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "434264744658",
+    "project_id": "recipes-book-43e17",
+    "storage_bucket": "recipes-book-43e17.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:434264744658:android:2d4f85e48591dd111c030b",
+        "android_client_info": {
+          "package_name": "com.mohd.kn.recipes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "434264744658-vj3munfhhagi12k2eana1fbag515v071.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mohd.kn.recipes",
+            "certificate_hash": "c98812a605f2b594582a213c6d79ad0a054fe269"
+          }
+        },
+        {
+          "client_id": "434264744658-56snj08klasbh8vqspasigocg2kbhbbl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBC7l51586sawA_Bz6Y1u2_1oMs0umm_CU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "434264744658-56snj08klasbh8vqspasigocg2kbhbbl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
