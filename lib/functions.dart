@@ -16,7 +16,7 @@ Future<void> deleteRecipe (BuildContext context, int i) async {
       ),
     );
   });
-  await Future.delayed(Duration(milliseconds: 10));
+  await Future.delayed(Duration(milliseconds: 5));
   recipesArr.removeAt(i);
   RecipesBox.deleteAt(i);
 }
