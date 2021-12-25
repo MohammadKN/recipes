@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart' hide showBottomSheet;
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'classes.dart';
@@ -28,7 +27,6 @@ var unitCont = TextEditingController();
 var nameCont = TextEditingController();
 var idCont = TextEditingController();
 
-final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -91,72 +89,72 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             body: StreamBuilder<QuerySnapshot>(
-                    stream: _recipesStream,
-                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                      if (snapshot.hasError) {
-                        return Text('Something went wrong');
-                      } else if (snapshot.hasData || snapshot.data != null)
-                      return Container(
-                        height: sh,
-                        width: sw,
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.vertical,
-                          physics: BouncingScrollPhysics(),
+              stream: _recipesStream,
+              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  return Text('Something went wrong');
+                } else if (snapshot.hasData || snapshot.data != null)
+                return Container(
+                  height: sh,
+                  width: sw,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    physics: BouncingScrollPhysics(),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
                           child: Column(
-                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    customText(10, 15, "First Row", Colors.black, 32, FontWeight.bold),
-                                    SizedBox(
-                                      height: 150,
-                                      child: AnimatedList(
-                                        physics: BouncingScrollPhysics(),
-                                        scrollDirection: Axis.horizontal,
-                                        initialItemCount: snapshot.data!.docs.length,
-                                        itemBuilder: (BuildContext context, i, animation) {
-                                          return SlideTransition(
-                                            position: animation
-                                                .drive(Tween(begin: Offset(1.0, 0.0), end: Offset.zero)),
-                                            child: GestureDetector(
-                                                onLongPress: () async {
-                                                  setState(() {
-                                                    deleteRecipe(context, i);
-                                                  });
-                                                },
-                                                child: homePageTile(
-                                                    customText(
-                                                    0,
-                                                    0,
-                                                    snapshot.data!.docs[i].id.toString(),
-                                                    Colors.white,
-                                                    18,
-                                                    FontWeight.bold
-                                                )
-                                              )
-                                            ),
-                                          );
-                                        },
+                              customText(10, 15, "First Row", Colors.black, 32, FontWeight.bold),
+                              SizedBox(
+                                height: 150,
+                                child: AnimatedList(
+                                  physics: BouncingScrollPhysics(),
+                                  scrollDirection: Axis.horizontal,
+                                  initialItemCount: snapshot.data!.docs.length,
+                                  itemBuilder: (BuildContext context, i, animation) {
+                                    return SlideTransition(
+                                      position: animation
+                                          .drive(Tween(begin: Offset(1.0, 0.0), end: Offset.zero)),
+                                      child: GestureDetector(
+                                          onLongPress: () async {
+                                            setState(() {
+                                              deleteRecipe(context, i);
+                                            });
+                                          },
+                                          child: homePageTile(
+                                              customText(
+                                              0,
+                                              0,
+                                              snapshot.data!.docs[i].id.toString(),
+                                              Colors.white,
+                                              18,
+                                              FontWeight.bold
+                                          )
+                                        )
                                       ),
-                                    ),
-                                  ],
+                                    );
+                                  },
                                 ),
                               ),
                             ],
                           ),
                         ),
-                      );
-                      return Center(
-                        child: CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                            Colors.red,
-                          ),
-                        ),
-                      );
-                    }
-                    )
+                      ],
+                    ),
+                  ),
+                );
+                return Center(
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      Colors.red,
+                    ),
+                  ),
+                );
+              }
+              )
         )
     );
 }

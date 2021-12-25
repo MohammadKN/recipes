@@ -11,3 +11,9 @@ class Ingredient {
 
   Ingredient(this.name,this.amount,this.unit);
 }
+
+class Recipe {
+  String name, description, category, id;
+
+  Recipe(this.name,this.description,this.category, this.id);
+}

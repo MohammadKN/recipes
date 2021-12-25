@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:recipes/classes.dart';
 import 'package:recipes/main.dart';
-import 'package:get/get.dart';
 import 'package:recipes/custom_widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -32,8 +31,6 @@ showToast (String msg) {
 }
 Future<void> addRecipe (BuildContext context, String name, String description, String category, String id, List<dynamic> IngredientsArr) async {
 
-  
-
     if (name != "" && description != "" && category != "" && id != "") {
       DocumentReference documentReferencer = FirebaseFirestore.instance
           .collection('recipes').doc(id);
@@ -52,8 +49,7 @@ Future<void> addRecipe (BuildContext context, String name, String description, S
           "Unit": element.unit,
         };
         await documentReferencer.collection("Ingredients").add(ingredientTemplate)
-          .whenComplete(() => print("Successfully Add To The Database"))
-          .catchError((e) => print(e));
+          .whenComplete(() => print("Successfully Add To The Database"));
       });
 
       await documentReferencer.set(recipeTemplate)
@@ -79,10 +75,10 @@ Future<void> addRecipe (BuildContext context, String name, String description, S
 void deleteIng(String key) {
 }
 
-Future<void> addIng(BuildContext context, String name, double amount, String unit, String recipeID) async {
+Future<void> addIng(BuildContext context, String name, double amount, String unit) async {
   if (name != "" && amount != "" && unit != "") {
     
-    ingredientsArr.add(Ingredient(name, amount, units));
+    ingredientsArr.add(Ingredient(name, amount, unit));
     
     IngSearchCont.clear();
     amountCont.clear();

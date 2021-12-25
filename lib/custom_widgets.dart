@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'functions.dart';
 import 'main.dart';
 
@@ -93,20 +92,7 @@ void showBottomSheet(BuildContext context) => showModalBottomSheet(
                     OutlinedButton(
                         key: Key("Add Ingredients Btn"),
                         onPressed: () {
-                          if (nameCont.text.isNotEmpty && descriptionCont.text.isNotEmpty
-                              && categoryCont.text.isNotEmpty && idCont.text.isNotEmpty){
-                            setModalState(() => stackIndex = 1);
-                          }
-                          else {
-                            Fluttertoast.showToast(
-                                msg: "Fill The Fields Above To Add Ingredients",
-                                toastLength: Toast.LENGTH_LONG,
-                                gravity: ToastGravity.BOTTOM,
-                                timeInSecForIosWeb: 2,
-                                backgroundColor: Colors.white70,
-                                textColor: Colors.black54,
-                                fontSize: 18.0);
-                          }
+                          setModalState(() => stackIndex = 1);
                         },
                         child: Text('Add Ingredients')),
                     ElevatedButton(
@@ -114,124 +100,131 @@ void showBottomSheet(BuildContext context) => showModalBottomSheet(
                             categoryCont.text, idCont.text, ingredientsArr),
                         child: Text("Add Recipe")),
                   ]),
-                  Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                    Wrap(
-                      alignment: WrapAlignment.start,
-                      spacing: 6,
-                      runSpacing: -8,
-                      children: ingredientsArr
-                          .map((item) => IngChip(
-                              setModalState,
-                              "https://cdn.loveandlemons.com/wp-content/uploads/2020/03/how-to-cook-rice.jpg",
-                              item.name,
-                              item.amount.toString(),
-                              item.unit))
-                          .toList()
-                          .cast<Widget>(),
-                      //
-                    ),
-                    Container(
-                      width: MediaQuery.of(ctx).size.width,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Expanded(
-                            flex: 8,
-                            child: TextField(
-                              controller: IngSearchCont,
-                              textInputAction: TextInputAction.next,
-                              key: Key("Ingredient Name Field"),
-                              decoration: InputDecoration(
-                                hintText: 'Ingredient Name',
-                              ),
-                              onTap: () => print(MediaQuery.of(context).viewInsets.bottom),
-                            ),
-                          ),
-                          Spacer(flex: 1),
-                          Expanded(
-                            flex: 5,
-                            child: TextField(
-                              controller: amountCont,
-                              keyboardType: TextInputType.number,
-                              textInputAction: TextInputAction.next,
-                              key: Key('Amount Field'),
-                              decoration: InputDecoration(
-                                hintText: 'Amount',
-                              ),
-                            ),
-                          ),
-                          Spacer(flex: 1),
-                          Expanded(
-                            flex: 8,
-                            child: DropdownButton<String>(
-                              focusColor: Colors.white,
-                              value: dropdownValue,
-                              //elevation: 5,
-                              style: TextStyle(color: Colors.white),
-                              iconEnabledColor: Colors.black,
-                              items: units.map<DropdownMenuItem<String>>((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(
-                                    value,
-                                    style: TextStyle(color: Colors.black),
+
+                  Stack(
+                    children: [
+                      Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                        Wrap(
+                          alignment: WrapAlignment.start,
+                          spacing: 6,
+                          runSpacing: -8,
+                          children: ingredientsArr
+                              .map((item) => IngChip(
+                                  setModalState,
+                                  "https://cdn.loveandlemons.com/wp-content/uploads/2020/03/how-to-cook-rice.jpg",
+                                  item.name,
+                                  item.amount.toString(),
+                                  item.unit))
+                              .toList()
+                              .cast<Widget>(),
+                          //
+                        ),
+
+                        Container(
+                          width: MediaQuery.of(ctx).size.width,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Expanded(
+                                flex: 8,
+                                child: TextField(
+                                  controller: IngSearchCont,
+                                  textInputAction: TextInputAction.next,
+                                  key: Key("Ingredient Name Field"),
+                                  decoration: InputDecoration(
+                                    hintText: 'Ingredient Name',
                                   ),
-                                );
-                              }).toList(),
-                              hint: Text(
-                                dropdownValue,
-                                style:
-                                    TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w500),
+                                  onTap: () => print(MediaQuery.of(context).viewInsets.bottom),
+                                ),
                               ),
-                              onChanged: (String? value) {
-                                setModalState(() {
-                                  dropdownValue = value!;
-                                });
-                              },
-                            ),
+                              Spacer(flex: 1),
+                              Expanded(
+                                flex: 5,
+                                child: TextField(
+                                  controller: amountCont,
+                                  keyboardType: TextInputType.number,
+                                  textInputAction: TextInputAction.next,
+                                  key: Key('Amount Field'),
+                                  decoration: InputDecoration(
+                                    hintText: 'Amount',
+                                  ),
+                                ),
+                              ),
+                              Spacer(flex: 1),
+                              Expanded(
+                                flex: 8,
+                                child: DropdownButton<String>(
+                                  focusColor: Colors.white,
+                                  value: dropdownValue,
+                                  //elevation: 5,
+                                  style: TextStyle(color: Colors.white),
+                                  iconEnabledColor: Colors.black,
+                                  items: units.map<DropdownMenuItem<String>>((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(
+                                        value,
+                                        style: TextStyle(color: Colors.black),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  hint: Text(
+                                    dropdownValue,
+                                    style:
+                                        TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w500),
+                                  ),
+                                  onChanged: (String? value) {
+                                    setModalState(() {
+                                      dropdownValue = value!;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            OutlinedButton(
+                                key: Key("Cancel Btn"),
+                                onPressed: () {
+                                  print("0");
+                                  setModalState(() {
+                                    stackIndex = 0;
+                                    print("1");
+                                  });
+                                },
+                                style: ButtonStyle(
+                                  foregroundColor: MaterialStateProperty.all(Colors.red),
+                                ),
+                                child: Text('Cancel')),
+                            OutlinedButton(
+                                key: Key("Add Ingredients Btn"),
+                                onPressed: () {
+                                  setModalState(() {
+                                    addIng(
+                                        ctx,
+                                        IngSearchCont.text,
+                                        double.parse(amountCont.text.toString()).toDouble(),
+                                        dropdownValue.toString(),
+                                    );
+                                    print(ingredientsArr);
+                                    IngSearchCont.clear();
+                                    amountCont.clear();
+                                    dropdownValue = 'Kilogram';
+                                  });
+                                },
+                                child: Text('Add Ingredient')),
+                          ],
+                        ),
+                        ]
                       ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        OutlinedButton(
-                            key: Key("Cancel Btn"),
-                            onPressed: () {
-                              print("0");
-                              setModalState(() {
-                                stackIndex = 0;
-                                print("1");
-                              });
-                            },
-                            style: ButtonStyle(
-                              foregroundColor: MaterialStateProperty.all(Colors.red),
-                            ),
-                            child: Text('Cancel')),
-                        OutlinedButton(
-                            key: Key("Add Ingredients Btn"),
-                            onPressed: () {
-                              setModalState(() {
-                                addIng(
-                                    ctx,
-                                    IngSearchCont.text,
-                                    double.parse(amountCont.text.toString()).toDouble(),
-                                    dropdownValue.toString(),
-                                    idCont.text
-                                );
-                                IngSearchCont.clear();
-                                amountCont.clear();
-                                dropdownValue = 'Kilogram';
-                              });
-                            },
-                            child: Text('Add Ingredient')),
-                      ],
-                    ),
-                  ]),
+                    ],
+                  ),
                 ],
               ),
               Padding(
