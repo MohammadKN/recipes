@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
+import 'package:recipes/classes.dart';
 import 'package:recipes/main.dart';
 import 'package:get/get.dart';
-import 'package:recipes/widgets/custom_widgets.dart';
-import 'model/recipe.dart';
+import 'package:recipes/custom_widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 Future<void> deleteRecipe (BuildContext context, int i) async {
   AnimatedList.of(context).removeItem(i, (context, animation) {
@@ -13,74 +13,84 @@ Future<void> deleteRecipe (BuildContext context, int i) async {
       axis: Axis.horizontal,
       sizeFactor: animation.drive(Tween<double>(begin: 0.0,end: 1.0)),
       child: GestureDetector(
-          child: homePageTile(customText(0, 0, RecipesBox.values.elementAt(i).name, Colors.white, 18, FontWeight.bold)
+          child: homePageTile(customText(0, 0, i.toString(), Colors.white, 18, FontWeight.bold)
           )
       ),
     );
   });
   await Future.delayed(Duration(milliseconds: 5));
-  RecipesBox.deleteAt(i);
 }
-
+showToast (String msg) {
+  return Fluttertoast.showToast(
+      msg: msg,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 2,
+      backgroundColor: Colors.white70,
+      textColor: Colors.black54,
+      fontSize: 18.0);
+}
 Future<void> addRecipe (BuildContext context, String name, String description, String category, String id, List<dynamic> IngredientsArr) async {
-  if (name != ""&&description != ""&&category != ""&&id != "") {
-    CollectionReference recipes = firebaseFirestore.collection('recipes');
 
-    recipes.add({
-      'name': name, // John Doe
-      'description': description, // Stokes and Sons
-      'category': category,
-      'id' : id,
-      'ingredients' : IngredientsArr,
-    }).then((value) => print("Recipe Added"))
-      .catchError((error) => print("Failed To Add Recipe: $error"));
+  
 
-    RecipesBox.put(id, Recipe(name: name, description: description, category: category, ingredients: IngredientsArr));
+    if (name != "" && description != "" && category != "" && id != "") {
+      DocumentReference documentReferencer = FirebaseFirestore.instance
+          .collection('recipes').doc(id);
 
-    nameCont.text = "";descriptionCont.text = "";
-    categoryCont.text = "";idCont.text = "";
+      Map<String, dynamic> recipeTemplate = <String, dynamic>{
+        "Name": name,
+        "description": description,
+        "Category": category,
+      };
 
-    print('''
-    $name
-    $description
-    $category
-    $id''');
-    Navigator.pop(context);
-    //Navigator.push(context, PageRouteBuilder(pageBuilder: (context, animation, secondaryAnimation) =>  HomePage()));
-  }
+
+      IngredientsArr.forEach((element) async {
+        Map<String, dynamic> ingredientTemplate = <String, dynamic>{
+          "Name": element.name,
+          "Amount": element.amount,
+          "Unit": element.unit,
+        };
+        await documentReferencer.collection("Ingredients").add(ingredientTemplate)
+          .whenComplete(() => print("Successfully Add To The Database"))
+          .catchError((e) => print(e));
+      });
+
+      await documentReferencer.set(recipeTemplate)
+          .whenComplete(() => print("Successfully Add To The Database"))
+          .catchError((e) => print(e));
+
+      nameCont.text = "";
+      descriptionCont.text = "";
+      categoryCont.text = "";
+      idCont.text = "";
+
+
+      Navigator.pop(context);
+    }
   else {
-    Get.snackbar(
-        "There's Empty Fields",
-        'To Continue Please Fill All The Available Fields',
-        snackPosition: SnackPosition.BOTTOM
-    );
+   showToast('To Continue Please Fill All The Available Fields');
   }
 }
 
 
 
-void deleteIng (String key) {
-  IngBox.delete(key);
+
+void deleteIng(String key) {
 }
 
-Future<void> addIng (BuildContext context, String name, double amount, String unit) async {
-  if (name != ""&&amount != ""&&unit != "") {
-    IngBox.put(name, Ingredient(name: name, amount: amount, unit: unit));
+Future<void> addIng(BuildContext context, String name, double amount, String unit, String recipeID) async {
+  if (name != "" && amount != "" && unit != "") {
+    
+    ingredientsArr.add(Ingredient(name, amount, units));
+    
+    IngSearchCont.clear();
+    amountCont.clear();
+    dropdownValue = "Kilogram";
 
-    nameCont.text = "";descriptionCont.text = "";
-    categoryCont.text = "";idCont.text = "";
 
-    print('''
-    $name
-    $amount
-    $unit''');
-    //Navigator.push(context, PageRouteBuilder(pageBuilder: (context, animation, secondaryAnimation) =>  HomePage()));
   }
   else {
-    Get.snackbar(
-        "There's Empty Fields",
-        'To Continue Please Fill All The Available Fields',
-        snackPosition: SnackPosition.BOTTOM
-    );
+    showToast('To Continue Please Fill All The Available Fields');
   }
 }
