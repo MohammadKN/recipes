@@ -78,84 +78,86 @@ class _HomePageState extends State<HomePage> {
     var sh = MediaQuery.of(context).size.height;
     final Stream<QuerySnapshot> _recipesStream = FirebaseFirestore.instance.collection('recipes').snapshots();
 
-    return SafeArea(
-        child: Scaffold(
-            key: Key("HomePageKey"),
-            resizeToAvoidBottomInset: true,
-            floatingActionButton: FloatingActionButton(
-              child: Icon(Icons.add),
-              onPressed: () {
-                showBottomSheet(context);
-              },
-            ),
-            body: StreamBuilder<QuerySnapshot>(
-              stream: _recipesStream,
-              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasError) {
-                  return Text('Something went wrong');
-                } else if (snapshot.hasData || snapshot.data != null)
-                return Container(
-                  height: sh,
-                  width: sw,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    physics: BouncingScrollPhysics(),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              customText(10, 15, "First Row", Colors.black, 32, FontWeight.bold),
-                              SizedBox(
-                                height: 150,
-                                child: AnimatedList(
-                                  physics: BouncingScrollPhysics(),
-                                  scrollDirection: Axis.horizontal,
-                                  initialItemCount: snapshot.data!.docs.length,
-                                  itemBuilder: (BuildContext context, i, animation) {
-                                    return SlideTransition(
-                                      position: animation
-                                          .drive(Tween(begin: Offset(1.0, 0.0), end: Offset.zero)),
-                                      child: GestureDetector(
-                                          onLongPress: () async {
-                                            setState(() {
-                                              deleteRecipe(context, i);
-                                            });
-                                          },
-                                          child: homePageTile(
-                                              customText(
-                                              0,
-                                              0,
-                                              snapshot.data!.docs[i].id.toString(),
-                                              Colors.white,
-                                              18,
-                                              FontWeight.bold
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: SafeArea(
+          child: Scaffold(
+              key: Key("HomePageKey"),
+              resizeToAvoidBottomInset: true,
+              body: StreamBuilder<QuerySnapshot>(
+                stream: _recipesStream,
+                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasError) {
+                    return Text('Something went wrong');
+                  } else if (snapshot.hasData || snapshot.data != null)
+                  return Container(
+                    height: sh,
+                    width: sw,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      physics: BouncingScrollPhysics(),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                customText(10, 15, "First Row", Colors.black, 32, FontWeight.bold),
+                                SizedBox(
+                                  height: 150,
+                                  child: AnimatedList(
+                                    physics: BouncingScrollPhysics(),
+                                    scrollDirection: Axis.horizontal,
+                                    initialItemCount: snapshot.data!.docs.length,
+                                    itemBuilder: (BuildContext context, i, animation) {
+                                      return SlideTransition(
+                                        position: animation
+                                            .drive(Tween(begin: Offset(1.0, 0.0), end: Offset.zero)),
+                                        child: GestureDetector(
+                                            onLongPress: () async {
+                                              setState(() {
+                                                deleteRecipe(context, i);
+                                              });
+                                            },
+                                            child: homePageTile(
+                                                customText(
+                                                0,
+                                                0,
+                                                snapshot.data!.docs[i].id.toString(),
+                                                Colors.white,
+                                                18,
+                                                FontWeight.bold
+                                            )
                                           )
-                                        )
-                                      ),
-                                    );
-                                  },
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => AddRecipePage()),);
+                            },
+                            child: Text("add"))
+                        ],
+                      ),
                     ),
-                  ),
-                );
-                return Center(
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      Colors.red,
+                  );
+                  return Center(
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        Colors.red,
+                      ),
                     ),
-                  ),
-                );
-              }
-              )
-        )
+                  );
+                }
+                )
+          )
+      ),
     );
 }
 }
