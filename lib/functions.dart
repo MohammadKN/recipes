@@ -1,24 +1,33 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:recipes/classes.dart';
 import 'package:recipes/main.dart';
 import 'package:recipes/custom_widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-Future<void> deleteRecipe (BuildContext context, int i) async {
+Future<void> deleteRecipe (BuildContext context, int i, String id) async {
   AnimatedList.of(context).removeItem(i, (context, animation) {
     return SizeTransition(
       axisAlignment: -1.0,
       axis: Axis.horizontal,
-      sizeFactor: animation.drive(Tween<double>(begin: 0.0,end: 1.0)),
+      sizeFactor: animation.drive(Tween<double>(begin: 0.0,end: 0.5)),
       child: GestureDetector(
-          child: homePageTile(customText(0, 0, i.toString(), Colors.white, 18, FontWeight.bold)
-          )
+          child: homePageTile(customText(0, 0, i.toString(), Colors.white, 18, FontWeight.bold),
+            Theme.of(context).primaryColor,
+          ),
       ),
     );
   });
   await Future.delayed(Duration(milliseconds: 5));
+
+  CollectionReference recipes = FirebaseFirestore.instance.collection('recipes');
+
+  recipes.doc(id).delete().then((value) => print("Recipe Deleted"))
+        .catchError((error) => print("Failed To Delete Recipe: $error"));
+
 }
+
 showToast (String msg) {
   return Fluttertoast.showToast(
       msg: msg,
@@ -29,8 +38,17 @@ showToast (String msg) {
       textColor: Colors.black54,
       fontSize: 18.0);
 }
-Future<void> addRecipe (BuildContext context, String name, String description, String category, String id, List<dynamic> IngredientsArr) async {
 
+Future<void> addRecipe (BuildContext context, String name, String description, String category, String id, List<dynamic> IngredientsArr, _recipeImage) async {
+
+  Future uploadImagesToFirebase() async {
+    var  firebaseStorageRef =
+    FirebaseStorage.instance.ref().child('Users/${"user!.uid"}${"user!.phoneNumber"}');
+    await firebaseStorageRef.child('Recipe Image').putFile(_recipeImage);
+    return await firebaseStorageRef.child('Recipe Image').getDownloadURL();
+  }
+
+  uploadImagesToFirebase();
     if (name != "" && description != "" && category != "" && id != "") {
       DocumentReference documentReferencer = FirebaseFirestore.instance
           .collection('recipes').doc(id);
