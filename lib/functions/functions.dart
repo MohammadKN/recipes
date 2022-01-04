@@ -1,10 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
-import 'package:recipes/classes.dart';
-import 'package:recipes/main.dart';
-import 'package:recipes/custom_widgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:recipes/components/components.dart';
+import 'package:flutter/material.dart';
+import 'package:recipes/models/classes.dart';
+import 'package:recipes/screens/add_recipe.dart';
+
 
 Future<void> deleteRecipe (BuildContext context, int i, String id) async {
   AnimatedList.of(context).removeItem(i, (context, animation) {
@@ -74,10 +75,7 @@ Future<void> addRecipe (BuildContext context, String name, String description, S
           .whenComplete(() => print("Successfully Add To The Database"))
           .catchError((e) => print(e));
 
-      nameCont.text = "";
-      descriptionCont.text = "";
-      categoryCont.text = "";
-      idCont.text = "";
+
 
 
       Navigator.pop(context);
@@ -87,24 +85,19 @@ Future<void> addRecipe (BuildContext context, String name, String description, S
   }
 }
 
-
-
-
-void deleteIng(String key) {
-}
-
 Future<void> addIng(BuildContext context, String name, double amount, String unit) async {
   if (name != "" && amount != "" && unit != "") {
-    
+
     ingredientsArr.add(Ingredient(name, amount, unit));
-    
-    IngSearchCont.clear();
-    amountCont.clear();
-    dropdownValue = "Kilogram";
+
 
 
   }
   else {
     showToast('To Continue Please Fill All The Available Fields');
   }
+}
+
+Future<void> deleteIng(String content) async {
+  ingredientsArr.remove(content);
 }

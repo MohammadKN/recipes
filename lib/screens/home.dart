@@ -1,9 +1,9 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart' hide showBottomSheet;
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
-import 'custom_widgets.dart';
-import 'functions.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:recipes/components/components.dart';
+import '../functions/functions.dart';
+import 'add_recipe.dart';
 
 ThemeData _themeData() {
   return ThemeData(
