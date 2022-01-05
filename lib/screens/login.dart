@@ -23,7 +23,7 @@ class LoginPage extends StatelessWidget {
               const Expanded(
                 flex: 5,
                 child: CircleAvatar(
-                  backgroundColor: Colors.indigo,
+                  backgroundColor: Colors.red,
                   radius: 50,
                 ),
               ),

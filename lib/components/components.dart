@@ -193,7 +193,7 @@ class EmailTextField extends StatelessWidget {
               blurRadius: 25,
               offset: const Offset(0,10),
               spreadRadius: 5,
-              color: Colors.indigo.withOpacity(0.2)
+              color: Colors.red.withOpacity(0.2)
           )
         ],
       ),
@@ -222,7 +222,7 @@ class EmailTextField extends StatelessWidget {
                   Expanded(
                     child: TextField(
                       controller: emailCont,
-                      cursorColor: Colors.indigo,
+                      cursorColor: Colors.red,
                       decoration: const InputDecoration(
                         border: InputBorder.none,
                         icon: Icon(Icons.email_outlined),
@@ -258,7 +258,7 @@ class NameTextField extends StatelessWidget {
               blurRadius: 25,
               offset: const Offset(0,10),
               spreadRadius: 5,
-              color: Colors.indigo.withOpacity(0.2)
+              color: Colors.red.withOpacity(0.2)
           )
         ],
       ),
@@ -287,7 +287,7 @@ class NameTextField extends StatelessWidget {
                   Expanded(
                     child: TextField(
                       controller: nameCont,
-                      cursorColor: Colors.indigo,
+                      cursorColor: Colors.red,
                       decoration: const InputDecoration(
                         border: InputBorder.none,
                         icon: Icon(Icons.person_outline),
@@ -321,7 +321,7 @@ class BioTextField extends StatelessWidget {
               blurRadius: 25,
               offset: const Offset(0,10),
               spreadRadius: 5,
-              color: Colors.indigo.withOpacity(0.2)
+              color: Colors.red.withOpacity(0.2)
           )
         ],
       ),
@@ -350,7 +350,7 @@ class BioTextField extends StatelessWidget {
                   Expanded(
                     child: TextField(
                       controller: bioCont,
-                      cursorColor: Colors.indigo,
+                      cursorColor: Colors.red,
                       decoration: const InputDecoration(
                         border: InputBorder.none,
                         icon: Icon(Icons.person_outline),
@@ -392,7 +392,7 @@ class _PassTextFieldState extends State<PassTextField> {
               blurRadius: 25,
               offset: const Offset(0,10),
               spreadRadius: 5,
-              color: Colors.indigo.withOpacity(0.2)
+              color: Colors.red.withOpacity(0.2)
           )
         ],
       ),
@@ -417,7 +417,7 @@ class _PassTextFieldState extends State<PassTextField> {
                     child: TextField(
                       controller: passwordCont,
                       obscureText: _obscure ? true : false,
-                      cursorColor: Colors.indigo,
+                      cursorColor: Colors.red,
                       decoration: InputDecoration(
                         icon: Icon(CupertinoIcons.lock),
                         border: InputBorder.none,
@@ -460,7 +460,7 @@ class LoginButton extends StatelessWidget {
       alignment: Alignment.center,
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Colors.indigo,
+        color: Colors.red,
         borderRadius: BorderRadius.circular(30),
       ),
       child: Text(
@@ -483,7 +483,7 @@ class RegisterButton extends StatelessWidget {
       alignment: Alignment.center,
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Colors.indigo,
+        color: Colors.red,
         borderRadius: BorderRadius.circular(30),
       ),
       child: Text(

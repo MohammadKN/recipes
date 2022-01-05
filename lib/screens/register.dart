@@ -63,7 +63,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       await takePersonalPhoto();
                     },
                     child: CircleAvatar(
-                      backgroundColor: Colors.indigo,
+                      backgroundColor: Colors.red,
                       //backgroundImage: FileImage(anonImage),
                       radius: 65,
                     ),
