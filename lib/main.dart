@@ -23,11 +23,9 @@ class MyApp extends StatelessWidget {
           //if (FirebaseAuth.instance.currentUser == null)
           //  LoginPage()
           //else
-            StartUpPage1(),
+          StartUpPage1(),
         ],
       )
     );
   }
 }
-
-

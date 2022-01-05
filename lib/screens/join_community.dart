@@ -28,7 +28,7 @@ class JoinCommunityPage extends StatelessWidget{
                   Spacer(),
                   Expanded(
                     flex: 12,
-                    child: AutoSizeText("NO MORE ASKING ABOUT WHAT TO COOK",
+                    child: AutoSizeText("NOW YOU ARE      READY TO JOIN OUR COMMUNITY OF CHEFS",
                       style: GoogleFonts.quicksand(
                         fontWeight: FontWeight.w500,
                         color: Colors.black,
@@ -42,7 +42,7 @@ class JoinCommunityPage extends StatelessWidget{
                           ),
                         ],
                       ),
-                      maxLines: 2,
+                      maxLines: 3,
                     ),
                   ),
                   Spacer(flex: 1,),

@@ -5,6 +5,7 @@ import 'package:recipes/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:recipes/models/classes.dart';
 import 'package:recipes/screens/add_recipe.dart';
+import 'package:recipes/screens/register.dart';
 
 
 Future<void> deleteRecipe (BuildContext context, int i, String id) async {
@@ -100,4 +101,8 @@ Future<void> addIng(BuildContext context, String name, double amount, String uni
 
 Future<void> deleteIng(String content) async {
   ingredientsArr.remove(content);
+}
+
+void NavTo (BuildContext context, dynamic destination) {
+  Navigator.push(context, SlideTransitions(destination));
 }

@@ -1,80 +1,89 @@
-
-
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:google_fonts/google_fonts.dart';
+import 'package:recipes/components/components.dart';
 import 'register.dart';
 
-class LoginPage extends StatefulWidget {
+
+class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-
-  @override
   Widget build(BuildContext context) {
-    var sh = MediaQuery.of(context).size.height;
-    var sw = MediaQuery.of(context).size.width;
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         resizeToAvoidBottomInset: false,
         body: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 18.0),
-          child: Container(
-            width: sw,
-            height: sh,
-            alignment: Alignment.topCenter,
-            child: Row(
-              children: [
-                Spacer(flex: 1,),
-                Expanded(
-                  flex: 10,
-                  child: SingleChildScrollView(
-                    physics: BouncingScrollPhysics(),
-                    child: Column(
+          padding: const EdgeInsets.symmetric(horizontal: 28.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Expanded(
+                flex: 5,
+                child: CircleAvatar(
+                  backgroundColor: Colors.indigo,
+                  radius: 50,
+                ),
+              ),
+              Expanded(
+                flex: 6,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const EmailTextField(),
+
+                    const SizedBox(
+                      height: 20,
+                    ),
+
+                    const PassTextField(),
+
+                    const SizedBox(
+                      height: 20,
+                    ),
+
+                    const LoginButton(),
+
+                    const SizedBox(
+                      height: 20,
+                    ),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        TextField(
-                          controller: emailCont,
-                          textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.emailAddress,
-                          decoration: InputDecoration(
-                            labelText: "Email",
-                            suffixIcon: Icon(Icons.email_outlined),
+                        GestureDetector(
+                          onTap:(){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=> RegisterPage()));
+                          },
+                          child: Text(
+                            "Signup",
+                            style: GoogleFonts.quicksand(
+                              color: Color(0xAA222222),
+                              fontWeight: FontWeight.w700
+                            ),
                           ),
                         ),
-
-                        TextField(
-                          controller: passwordCont,
-                          keyboardType: TextInputType.visiblePassword,
-                          textInputAction: TextInputAction.next,
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            labelText: "Password",
-                            suffixIcon: Icon(Icons.password),
+                        GestureDetector(
+                          onTap:(){
+                            ///Unimplemented//////////////////////////////////////////////////////////////////
+                          },
+                          child: Text(
+                            "Forgot Password?",
+                            style: GoogleFonts.quicksand(
+                                color: Color(0xAA222222),
+                                fontWeight: FontWeight.w700
+                            ),
                           ),
-                        ),
-                        ElevatedButton(
-                          onPressed: (){
-
-                          },
-                          child: Text("Sign In"),
-                        ),
-                        TextButton(
-                          onPressed: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterPage()));
-                          },
-                          child: Text("Don't Have An Account?"),
                         ),
                       ],
-                    ),
-                  ),
+                    )
+                  ],
                 ),
-                Spacer(flex: 1,),
-              ],
-            ),
+              ),
+              const Spacer(flex: 5,),
+            ],
           ),
         ),
       ),
