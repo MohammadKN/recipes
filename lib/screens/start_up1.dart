@@ -1,4 +1,6 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:recipes/components/components.dart';
 import 'package:recipes/functions/functions.dart';
 import 'package:recipes/screens/join_community.dart';
@@ -54,10 +56,22 @@ class _StartUpPage1State extends State<StartUpPage1> with TickerProviderStateMix
                           offset: Offset(0.0, startup1AnimationController.value*250),
                           child: child,);
                       },
-                      child: CustomizableText(
-                        content: "NO MORE ASKING ABOUT WHAT TO COOK.",
-                        fontWeight: FontWeight.w500,
-                        fontSize: 30.0,
+                      child: AutoSizeText(
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.".toUpperCase(),
+                        style: GoogleFonts.quicksand(
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
+                          fontSize: 30,
+                          shadows: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.25),
+                              blurRadius: 0,
+                              offset: Offset(1,1),
+                              spreadRadius: 0,
+                            ),
+                          ],
+                        ),
+                        maxLines: 3,
                       ),
                     ),
                   ),

@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:recipes/components/components.dart';
 import 'package:flutter/material.dart';
+import 'package:recipes/functions/functions.dart';
+import 'home.dart';
 import 'login.dart';
 import 'dart:io';
 
@@ -100,7 +102,16 @@ class _RegisterPageState extends State<RegisterPage> {
                           height: 20,
                         ),
 
-                        const RegisterButton(),
+                        GestureDetector(
+                          onTap: (){
+                            passwordCont.clear();
+                            nameCont.clear();
+                            bioCont.clear();
+                            emailCont.clear();
+                            NavTo(context, HomePage());
+                          },
+                          child: const RegisterButton(),
+                        ),
 
                         const SizedBox(
                           height: 20,

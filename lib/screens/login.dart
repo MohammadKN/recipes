@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:recipes/components/components.dart';
 import 'package:recipes/functions/functions.dart';
+import 'package:recipes/screens/home.dart';
 import 'register.dart';
 
 
@@ -47,7 +48,14 @@ class LoginPage extends StatelessWidget {
                         height: 20,
                       ),
 
-                      const LoginButton(),
+                      GestureDetector(
+                        onTap: (){
+                          passwordCont.clear();
+                          emailCont.clear();
+                          NavTo(context, HomePage());
+                        },
+                          child: const LoginButton()
+                      ),
 
                       const SizedBox(
                         height: 20,

@@ -68,7 +68,8 @@ class _StartUpPage2State extends State<StartUpPage2> with TickerProviderStateMix
                             offset: Offset(0.0, startup2AnimationController.value*250),
                             child: child,);
                         },
-                        child: AutoSizeText("YOUR WAY TO COOK THE BEST RECIPES FOR YOUR CHILDREN",
+                        child: AutoSizeText(
+                          "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.".toUpperCase(),
                           style: GoogleFonts.quicksand(
                             fontWeight: FontWeight.w500,
                             color: Colors.black,

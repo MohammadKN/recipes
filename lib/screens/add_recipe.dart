@@ -75,7 +75,7 @@ class _AddRecipePageState extends State<AddRecipePage> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
 
-                        CircularAvatar(screenHeight / 11, _recipeImage),
+                        //CircularAvatar(screenHeight / 11, _recipeImage),
                         TextField(
                           controller: nameCont,
                           textInputAction: TextInputAction.next,
