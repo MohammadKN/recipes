@@ -41,85 +41,88 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     var sh = MediaQuery.of(context).size.height;
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        resizeToAvoidBottomInset: true,
-        body: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          child: Container(
-            alignment: Alignment.topCenter,
-            height: sh,
-            padding: const EdgeInsets.symmetric(horizontal: 28.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  flex: 4,
-                  child: GestureDetector(
-                    onTap: () async {
-                      await takePersonalPhoto();
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: Colors.red,
-                      //backgroundImage: FileImage(anonImage),
-                      radius: 65,
+    return WillPopScope(
+      onWillPop: () async { return false; },
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          resizeToAvoidBottomInset: true,
+          body: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Container(
+              alignment: Alignment.topCenter,
+              height: sh,
+              padding: const EdgeInsets.symmetric(horizontal: 28.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    flex: 4,
+                    child: GestureDetector(
+                      onTap: () async {
+                        await takePersonalPhoto();
+                      },
+                      child: CircleAvatar(
+                        backgroundColor: Colors.red,
+                        //backgroundImage: FileImage(anonImage),
+                        radius: 65,
+                      ),
                     ),
                   ),
-                ),
-                Expanded(
-                  flex: 10,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const NameTextField(),
+                  Expanded(
+                    flex: 10,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const NameTextField(),
 
-                      const SizedBox(
-                        height: 20,
-                      ),
+                        const SizedBox(
+                          height: 20,
+                        ),
 
-                      const BioTextField(),
+                        const BioTextField(),
 
-                      const SizedBox(
-                        height: 20,
-                      ),
+                        const SizedBox(
+                          height: 20,
+                        ),
 
-                      const EmailTextField(),
+                        const EmailTextField(),
 
-                      const SizedBox(
-                        height: 20,
-                      ),
+                        const SizedBox(
+                          height: 20,
+                        ),
 
-                      const PassTextField(),
+                        const PassTextField(),
 
-                      const SizedBox(
-                        height: 20,
-                      ),
+                        const SizedBox(
+                          height: 20,
+                        ),
 
-                      const RegisterButton(),
+                        const RegisterButton(),
 
-                      const SizedBox(
-                        height: 20,
-                      ),
+                        const SizedBox(
+                          height: 20,
+                        ),
 
-                      GestureDetector(
-                        onTap:(){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginPage()));
-                        },
-                        child: Text(
-                          "Login",
-                          style: GoogleFonts.quicksand(
-                              color: Color(0xAA222222),
-                              fontWeight: FontWeight.w700
+                        GestureDetector(
+                          onTap:(){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginPage()));
+                          },
+                          child: Text(
+                            "Login",
+                            style: GoogleFonts.quicksand(
+                                color: Color(0xAA222222),
+                                fontWeight: FontWeight.w700
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

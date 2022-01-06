@@ -2,36 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:recipes/components/components.dart';
 import 'package:recipes/functions/functions.dart';
 import 'package:recipes/screens/join_community.dart';
-import 'dart:math';
+import 'package:recipes/screens/start_up2.dart';
+import 'package:recipes/main.dart';
 
+
+var startup1AnimationController;
 class StartUpPage1 extends StatefulWidget{
   @override
   State<StartUpPage1> createState() => _StartUpPage1State();
 }
 
 class _StartUpPage1State extends State<StartUpPage1> with TickerProviderStateMixin{
-  var ForwardDuration = 0;
-  late AnimationController _controller = AnimationController(
-    duration: Duration(milliseconds: ForwardDuration),
-    reverseDuration: const Duration(milliseconds: 500),
-    vsync: this,
-  )..forward();
-
 
   @override
   void initState()  {
+    startup1AnimationController = AnimationController(
+      duration: Duration(milliseconds: 0),
+      reverseDuration: Duration(milliseconds: ForwardDuration),
+      vsync: this,
+    )..forward();
     super.initState();
     WidgetsBinding.instance?.addPostFrameCallback((_) {
-      _controller.forward();
-      _controller.reverse();
-      ForwardDuration = 500;
+      startup1AnimationController.reverse();
     });
   }
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+ // @override
+ // void dispose() {
+ //   myAnimationController.dispose();
+ //   super.dispose();
+ // }
 
   @override
   Widget build(BuildContext context){
@@ -49,10 +48,10 @@ class _StartUpPage1State extends State<StartUpPage1> with TickerProviderStateMix
                   Expanded(
                     flex: 12,
                     child: AnimatedBuilder(
-                      animation: _controller,
+                      animation: startup1AnimationController,
                       builder: (BuildContext context, Widget? child) {
                         return Transform.translate(
-                          offset: Offset(0.0, _controller.value*250),
+                          offset: Offset(0.0, startup1AnimationController.value*250),
                           child: child,);
                       },
                       child: CustomizableText(
@@ -74,15 +73,23 @@ class _StartUpPage1State extends State<StartUpPage1> with TickerProviderStateMix
                   Expanded(
                     flex: 12,
                     child: AnimatedBuilder(
-                        animation: _controller,
+                        animation: startup1AnimationController,
                         builder: (BuildContext context, Widget? child) {
                           return Transform.translate(
-                            offset: Offset(0.0, _controller.value*225),
+                            offset: Offset(0.0, startup1AnimationController.value*225),
                             child: child,);
                         },
                         child: GestureDetector(
-                          onTapUp: (s){
-                            //_controller.forward();
+                          onTap: () async {
+                            setState(() {
+                              startup1AnimationController = AnimationController(
+                                duration: Duration(milliseconds: ForwardDuration),
+                                reverseDuration: Duration(milliseconds: ForwardDuration),
+                                vsync: this,
+                              )..forward();
+                            });
+                            await Future.delayed(Duration(milliseconds: ForwardDuration));
+                            NavTo(context, StartUpPage2());
                           },
                           child: NextPageBtn(index: 0,),
                         ),
@@ -102,10 +109,10 @@ class _StartUpPage1State extends State<StartUpPage1> with TickerProviderStateMix
                 NavTo(context, JoinCommunityPage());
               },
               child: AnimatedBuilder(
-                animation: _controller,
+                animation: startup1AnimationController,
                 builder: (BuildContext context, Widget? child) {
                   return Transform.translate(
-                    offset: Offset(0.0, _controller.value*-200),
+                    offset: Offset(0.0, startup1AnimationController.value*-200),
                     child: child,);
                 },
                 child: CustomizableText(

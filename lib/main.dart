@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:recipes/screens/start_up1.dart';
 import 'package:recipes/theme/style.dart';
 
+const ForwardDuration = 200;
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:recipes/screens/join_community.dart';
 import 'package:recipes/screens/register.dart';
+import 'package:recipes/screens/start_up1.dart';
 import 'package:recipes/screens/start_up2.dart';
 import '../functions/functions.dart';
 export 'circular_avatar.dart';
@@ -73,54 +74,34 @@ class _NextPageBtnState extends State<NextPageBtn> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTapDown: (s){
-        setState(() {
-          isClicked = true;
-        });
-      },
-
-      onTapUp: (s){
-        setState(() {
-          isClicked = false;
-          if (widget.index == 0)
-            NavTo(context, StartUpPage2());
-          else if (widget.index == 1)
-            NavTo(context, JoinCommunityPage());
-          else
-            NavTo(context, RegisterPage());
-        });
-      },
-
-      child: Container(
-        alignment: Alignment.center,
-        height: 50,
-        decoration: BoxDecoration(
-            color: isClicked ? Color(0xff000000) : Color(0xFF191919),
-            borderRadius: BorderRadius.circular(15),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.35),
-                blurRadius: 0,
-                offset: isClicked ? Offset(0,0) : Offset(2, 2),
-                spreadRadius: isClicked ? 0 : 1,
-              )
-            ]
-        ),
-        child: Text("NEXT",
-          style: GoogleFonts.quicksand(
-            fontSize: 25,
-            fontWeight: FontWeight.w400,
-            color: Colors.white,
-            shadows: [
-              BoxShadow(
-                color: Colors.white.withOpacity(0.25),
-                blurRadius: 0,
-                offset: Offset(1,1),
-                spreadRadius: 0,
-              ),
-            ],
-          ),
+    return Container(
+      alignment: Alignment.center,
+      height: 50,
+      decoration: BoxDecoration(
+          color: isClicked ? Color(0xff000000) : Color(0xFF191919),
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.35),
+              blurRadius: 0,
+              offset: isClicked ? Offset(0,0) : Offset(2, 2),
+              spreadRadius: isClicked ? 0 : 1,
+            )
+          ]
+      ),
+      child: Text("NEXT",
+        style: GoogleFonts.quicksand(
+          fontSize: 25,
+          fontWeight: FontWeight.w400,
+          color: Colors.white,
+          shadows: [
+            BoxShadow(
+              color: Colors.white.withOpacity(0.25),
+              blurRadius: 0,
+              offset: Offset(1,1),
+              spreadRadius: 0,
+            ),
+          ],
         ),
       ),
     );

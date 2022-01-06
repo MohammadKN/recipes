@@ -33,7 +33,7 @@ Future<void> deleteRecipe (BuildContext context, int i, String id) async {
 showToast (String msg) {
   return Fluttertoast.showToast(
       msg: msg,
-      toastLength: Toast.LENGTH_LONG,
+      toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
       timeInSecForIosWeb: 2,
       backgroundColor: Colors.white70,
