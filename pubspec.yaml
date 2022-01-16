@@ -22,7 +22,8 @@ dependencies:
   firebase_storage: ^10.2.4
   google_fonts: ^2.2.0
   auto_size_text: ^3.0.0
-
+  line_icons:
+  color_thief_flutter: ^1.0.2
 
 
 dev_dependencies:

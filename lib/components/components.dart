@@ -479,3 +479,210 @@ class RegisterButton extends StatelessWidget {
 
 
 
+
+class CategoryChip extends StatefulWidget {
+  final name;
+  const CategoryChip({Key? key, this.name}) : super(key: key);
+
+  @override
+  _CategoryChipState createState() => _CategoryChipState();
+}
+
+class _CategoryChipState extends State<CategoryChip> {
+  @override
+  Widget build(BuildContext context) {
+    final index = categoriesArr.indexWhere((e) => e.name == widget.name,);
+    return GestureDetector(
+      onTap: (){
+        if (categoriesArr[index].checked) {
+          setState(() {
+            categoriesArr[index].checked = false;
+          });
+        } else {
+          setState(() {
+            categoriesArr[index].checked = true;
+          });
+        }
+      },
+      child: Container(
+        key: Key(widget.name),
+        height: 40,
+        width: 90,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: categoriesArr[index].checked ? const Color(0xFF121008) : const Color(0xFFF1F1F1),
+          borderRadius: BorderRadius.circular(90),
+        ),
+        child: Text(widget.name ?? "Salads",
+          style: GoogleFonts.cairo(fontWeight: FontWeight.w400, color: categoriesArr[index].checked ? Colors.white : Colors.black),
+        ),
+      ),
+    );
+  }
+}
+
+
+class HomePageTile extends StatelessWidget {
+  final width;
+  const HomePageTile({Key? key, this.width}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return
+      Container(
+        margin: const EdgeInsets.only(bottom: 20),
+        alignment: Alignment.topCenter,
+        height: 250,
+        width: width,
+        decoration: BoxDecoration(
+          color: const Color(0xFFF1F1F1),
+          borderRadius: BorderRadius.circular(90),
+          //boxShadow: [
+          //  BoxShadow(
+          //      offset: Offset(0, 15),
+          //      blurRadius: 20,
+          //      spreadRadius: 5,
+          //      color: Colors.deepOrange.shade100
+          //  )
+          //]
+        ),
+        child: OverflowBox(
+          maxHeight: 280,
+          //maxWidth: 200,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                        offset: const Offset(5, 15),
+                        blurRadius: 12,
+                        spreadRadius: 1,
+                        color: Colors.black.withOpacity(0.12)
+                    )
+                  ],
+                  borderRadius: BorderRadius.circular(90),
+                ),
+                child: const CircleAvatar(
+                  foregroundImage: NetworkImage(
+                      "https://firebasestorage.googleapis.com/v0/b/recipes-book-43e17.appspot.com/o/Assets%2FNicePng_plate-of-food-png_546030.png?alt=media&token=c8be3bff-3bfc-4722-8132-26a7643aeb35"),
+                  backgroundColor: Colors.transparent,
+                  foregroundColor: Colors.transparent,
+                  radius: 65,
+                ),
+              ),
+              const SizedBox(height: 5,),
+              Text("Chicken Salad",style: GoogleFonts.cairo(fontWeight: FontWeight.w600,fontSize: 19),),//Title
+              Text("Chicken With Veggies",style: GoogleFonts.cairo(),),//main Ingredients
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children:  [
+                  Text("5.0",style: GoogleFonts.cairo(fontWeight: FontWeight.w600),),//Rating
+                  const SizedBox(width: 5,),
+                  Icon(CupertinoIcons.star_fill,color: Colors.amberAccent.shade700,size: 17),
+                ],
+              ),
+
+              Container(
+                height: 35,
+                width: 35,
+                decoration: BoxDecoration(
+                  color: const Color(0xff121008),
+                  borderRadius: BorderRadius.circular(90),
+                ),
+                child: const Icon(LineIcons.plus,color: Colors.white,size: 17,),
+              ),
+            ],
+          ),
+        ),
+      );
+  }
+}
+
+
+class HomePageMainTile extends StatelessWidget {
+  final height;
+  const HomePageMainTile({Key? key, this.height}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 20),
+      alignment: Alignment.centerLeft,
+      height: height,
+      width: 350,
+      decoration: BoxDecoration(
+        color: const Color(0xFFF1F1F1),
+        borderRadius: BorderRadius.circular(90),
+        //boxShadow: [
+        //  BoxShadow(
+        //      offset: Offset(0, 15),
+        //      blurRadius: 20,
+        //      spreadRadius: 5,
+        //      color: Colors.deepOrange.shade100
+        //  )
+        //]
+      ),
+      child: OverflowBox(
+        maxWidth: 370,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                      offset: const Offset(5, 15),
+                      blurRadius: 12,
+                      spreadRadius: 1,
+                      color: Colors.black.withOpacity(0.12)
+                  )
+                ],
+                borderRadius: BorderRadius.circular(90),
+              ),
+              child: const CircleAvatar(
+                foregroundImage: NetworkImage(
+                    "https://firebasestorage.googleapis.com/v0/b/recipes-book-43e17.appspot.com/o/Assets%2FNicePng_plate-of-food-png_546030.png?alt=media&token=c8be3bff-3bfc-4722-8132-26a7643aeb35"),
+                backgroundColor: Colors.transparent,
+                foregroundColor: Colors.transparent,
+                radius: 75,
+              ),
+            ),
+            const SizedBox(width: 5,),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text("Chicken Salad",style: GoogleFonts.cairo(fontWeight: FontWeight.w600,fontSize: 22),),
+                Text("Chicken With Veggies",style: GoogleFonts.cairo(),),//main Ingredients
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children:  [
+                    Text("5.0",style: GoogleFonts.cairo(fontWeight: FontWeight.w600,fontSize: 20),),//Rating
+                    const SizedBox(width: 5,),
+                    Icon(CupertinoIcons.star_fill,color: Colors.amberAccent.shade700,size: 20),
+                  ],
+                ),
+              ],
+            ),//Title
+            Container(
+              height: 35,
+              width: 35,
+              decoration: BoxDecoration(
+                color: const Color(0xff121008),
+                borderRadius: BorderRadius.circular(90),
+              ),
+              child: const Icon(LineIcons.plus,color: Colors.white,size: 20,),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+

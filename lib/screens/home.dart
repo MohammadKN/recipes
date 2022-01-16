@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart' hide showBottomSheet;
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:line_icons/line_icons.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:recipes/components/components.dart';
 import '../functions/functions.dart';
