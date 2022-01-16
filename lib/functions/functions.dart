@@ -15,9 +15,12 @@ Future<void> deleteRecipe (BuildContext context, int i, String id) async {
       axis: Axis.horizontal,
       sizeFactor: animation.drive(Tween<double>(begin: 0.0,end: 0.5)),
       child: GestureDetector(
-          child: homePageTile(customText(0, 0, i.toString(), Colors.white, 18, FontWeight.bold),
-            Theme.of(context).primaryColor,
-          ),
+          child: HomePageTile(
+            title: id.toString(),
+            subtitle: id.toString(),
+            //width: sw/2-65,
+            //imageURL: snapshot.data!.docs[i].imageURL.toString(),
+          )
       ),
     );
   });

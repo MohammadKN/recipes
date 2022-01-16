@@ -17,14 +17,16 @@ ThemeData _themeData() {
   );
 }
 
+
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
-
   @override
-  _HomePageState createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+
   Future<FirebaseApp> _initializeFirebase() async {
     FirebaseApp firebaseApp = await Firebase.initializeApp();
 
@@ -43,87 +45,145 @@ class _HomePageState extends State<HomePage> {
     var sw = MediaQuery.of(context).size.width;
     var sh = MediaQuery.of(context).size.height;
     var _recipesStream = FirebaseFirestore.instance.collection('recipes').snapshots();
-
-    return MaterialApp(
-      theme: _themeData(),
-      debugShowCheckedModeBanner: false,
-      home: SafeArea(
-        child: Scaffold(
-          key: Key("HomePageKey"),
-          resizeToAvoidBottomInset: true,
-          body: StreamBuilder<QuerySnapshot>(
-            stream: _recipesStream,
-            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              if (snapshot.hasError) {
-                return Text('Something went wrong');
-              } else if (snapshot.connectionState == ConnectionState.waiting)
-              return Center(
-                child: CircularProgressIndicator(
-                  color: Theme.of(context).primaryColor,
-                ),
-              ); else
-              return Container(
-                height: sh,
-                width: sw,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  physics: BouncingScrollPhysics(),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: StreamBuilder<QuerySnapshot>(
+        stream: _recipesStream,
+        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Text('Something went wrong');
+          } else if (snapshot.connectionState == ConnectionState.waiting)
+            return Center(
+              child: CircularProgressIndicator(
+                color: Theme.of(context).primaryColor,
+              ),
+          ); else
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18.0),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            customText(10, 15, "First Row", Colors.black, 32, FontWeight.bold),
-                            SizedBox(
-                              height: 150,
-                              child: AnimatedList(
-                                physics: BouncingScrollPhysics(),
-                                scrollDirection: Axis.horizontal,
-                                initialItemCount: snapshot.data!.docs.length,
-                                itemBuilder: (BuildContext context, i, animation) {
-                                  return SlideTransition(
-                                    position: animation
-                                        .drive(Tween(begin: Offset(1.0, 0.0), end: Offset.zero)),
-                                    child: GestureDetector(
-                                        onLongPress: () async {
-                                          setState(() {
-                                            deleteRecipe(
-                                                context, i, snapshot.data!.docs[i].id.toString());
-                                          });
-                                        },
-                                        child: snapshot.data!.docs[i].id.isEmpty
-                                            ? Container()
-                                            : homePageTile(
-                                                customText(0, 0, snapshot.data!.docs[i].id.toString(),
-                                                    Colors.white, 18, FontWeight.bold),
-                                                Theme.of(context).primaryColor,
-                                              )),
-                                  );
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
+                      IconButton(onPressed: (){}, icon: const Icon(LineIcons.list)),
+                      IconButton(onPressed: (){}, icon: const Icon(LineIcons.search)),
+                    ],
+                  ),
+                  const Spacer(),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Delicious Recipes",
+                      style: GoogleFonts.cairo(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 26
                       ),
-                      ElevatedButton(
-                          onPressed: () {
+                    ),
+                  ),//title
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Here You Can Find The Best Recipes.",
+                      style: GoogleFonts.cairo(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),//subtitle
+                  const Spacer(),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    physics: const BouncingScrollPhysics(),
+                    child: Wrap(
+                      spacing: 7,
+                      children: categoriesArr.map((i) => CategoryChip(name: i.name)).toList(),
+                    ),
+                  ),//category
+                  const Spacer(),
+                  HomePageMainTile(height: sw/2-50,),
+                  const Spacer(),
+                  Expanded(
+                    flex: 12,
+                    child: AnimatedList(
+                      physics: BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      initialItemCount: snapshot.data!.docs.length,
+                      itemBuilder: (BuildContext context, i, animation) {
+                        return SlideTransition(
+                          position: animation
+                              .drive(Tween(begin: Offset(1.0, 0.0), end: Offset.zero)),
+                          child: GestureDetector(
+                              onLongPress: () async {
+                                setState(() {
+                                  deleteRecipe(
+                                      context, i, snapshot.data!.docs[i].id.toString());
+                                });
+                              },
+                              child: snapshot.data!.docs[i].id.isEmpty
+                                  ? Container()
+                                  : HomePageTile(
+                                key: Key(snapshot.data!.docs[i].id.toString()),
+                                title: snapshot.data!.docs[i].id.toString(),
+                                subtitle: snapshot.data!.docs[i].toString(),
+                                width: sw/2-65,
+                                //imageURL: snapshot.data!.docs[i].imageURL.toString(),
+                              )),
+                        );
+                      },
+                    ),
+                  ),
+                  const Spacer(),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      margin: const EdgeInsets.only(bottom: 20),
+                      alignment: Alignment.center,
+                      height: 65,
+                      width: sw-40,
+                      decoration: BoxDecoration(
+                          color: const Color(0xff121008),
+                          borderRadius: BorderRadius.circular(25),
+                          boxShadow: const [
+                            BoxShadow(
+                                offset: Offset(5, 15),
+                                blurRadius: 20,
+                                spreadRadius: 5,
+                                color: Colors.black26
+                            )
+                          ]
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          IconButton(onPressed: (){}, icon: const Icon(LineIcons.home,color: Colors.white,)),
+                          IconButton(onPressed: (){
                             Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) => AddRecipePage()),
                             );
-                          },
-                          child: Text("add"),
+                            },
+                              icon: const Icon(
+                                LineIcons.plus,
+                                color: Colors.white,
+                              ),
+                          ),
+                          IconButton(onPressed: (){}, icon: const Icon(LineIcons.road,color: Colors.white,)),
+                          IconButton(onPressed: (){}, icon: const Icon(LineIcons.fileContract,color: Colors.white,)),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
+                    ),
+                  ),///Bottom AppBar
+                ],
+              ),
+            );
+          }
         ),
       ),
     );
   }
 }
+
+
+

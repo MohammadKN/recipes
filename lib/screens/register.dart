@@ -28,7 +28,6 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-
   String personalImageURL = '',cardImageURL = '';
   final picker = ImagePicker();
   var _personalImage;

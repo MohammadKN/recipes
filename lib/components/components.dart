@@ -2,37 +2,40 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:recipes/screens/join_community.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:recipes/screens/register.dart';
-import 'package:recipes/screens/start_up1.dart';
-import 'package:recipes/screens/start_up2.dart';
 import '../functions/functions.dart';
 export 'circular_avatar.dart';
 
+class Category {
+  String name;
+  bool checked;
 
-
-Widget customText(double HorPad, double VerPad, String content, Color color, double size, FontWeight weight) {
-  return Padding(
-    padding: EdgeInsets.symmetric(horizontal: HorPad, vertical: VerPad),
-    child: Text(
-      "$content",
-      style: TextStyle(color: color, fontSize: size, fontWeight: weight),
-    ),
-  );
+  Category(this.name, this.checked);
 }
+List<Category> categoriesArr = [
+  Category("Salads", false),
+  Category("Snacks", true),
+  Category("Breakfast", true),
+  Category("Launch", true),
+  Category("Dinner", true),
+];
 
-Widget homePageTile(Widget title , Color primaryColor) {
-  return Container(
-    height: 150,
-    width: 150,
-    margin: EdgeInsets.symmetric(horizontal: 10),
-    decoration: BoxDecoration(
-      color: primaryColor,
-      borderRadius: BorderRadius.circular(25),
-    ),
-    alignment: Alignment.bottomRight,
-    child: Padding(padding: EdgeInsets.all(10), child: title),
-  );
+
+class customText extends StatelessWidget {
+  final HorPad,  VerPad,  content,  color,  size, weight;
+  const customText({Key? key, this.HorPad, this.VerPad, this.content, this.color, this.size, this.weight}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: HorPad, vertical: VerPad),
+      child: Text(
+        "$content",
+        style: GoogleFonts.cairo(color: color, fontSize: size, fontWeight: weight),
+      ),
+    );
+  }
 }
 
 Widget AddIngField() {
@@ -41,8 +44,6 @@ Widget AddIngField() {
     decoration: InputDecoration(hintText: 'Add Ingredients'),
   );
 }
-
-
 
 
 Widget IngChip(StateSetter setModalState, String imagePath, String content, String amount, String unit) {
@@ -510,11 +511,11 @@ class _CategoryChipState extends State<CategoryChip> {
         width: 90,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: categoriesArr[index].checked ? const Color(0xFF121008) : const Color(0xFFF1F1F1),
+          color: categoriesArr[index].checked ? const Color(0xFFF1F1F1) : const Color(0xFF121008),
           borderRadius: BorderRadius.circular(90),
         ),
         child: Text(widget.name ?? "Salads",
-          style: GoogleFonts.cairo(fontWeight: FontWeight.w400, color: categoriesArr[index].checked ? Colors.white : Colors.black),
+          style: GoogleFonts.cairo(fontWeight: FontWeight.w400, color: categoriesArr[index].checked ? Colors.black : Colors.white),
         ),
       ),
     );
@@ -523,8 +524,8 @@ class _CategoryChipState extends State<CategoryChip> {
 
 
 class HomePageTile extends StatelessWidget {
-  final width;
-  const HomePageTile({Key? key, this.width}) : super(key: key);
+  final width,title,subtitle,imageURL;
+  const HomePageTile({Key? key, this.width, this.title, this.subtitle, this.imageURL}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
