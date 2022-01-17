@@ -529,9 +529,10 @@ class HomePageTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(imageURL);
     return
       Container(
-        margin: const EdgeInsets.only(bottom: 20),
+        margin: const EdgeInsets.symmetric(vertical: 20,horizontal: 10),
         alignment: Alignment.topCenter,
         height: 250,
         width: width,
@@ -565,17 +566,17 @@ class HomePageTile extends StatelessWidget {
                   ],
                   borderRadius: BorderRadius.circular(90),
                 ),
-                child: const CircleAvatar(
+                child: CircleAvatar(
                   foregroundImage: NetworkImage(
-                      "https://firebasestorage.googleapis.com/v0/b/recipes-book-43e17.appspot.com/o/Assets%2FNicePng_plate-of-food-png_546030.png?alt=media&token=c8be3bff-3bfc-4722-8132-26a7643aeb35"),
+                      imageURL ?? "https://firebasestorage.googleapis.com/v0/b/recipes-book-43e17.appspot.com/o/Assets%2FNicePng_plate-of-food-png_546030.png?alt=media&token=c8be3bff-3bfc-4722-8132-26a7643aeb35"),
                   backgroundColor: Colors.transparent,
                   foregroundColor: Colors.transparent,
                   radius: 65,
                 ),
               ),
               const SizedBox(height: 5,),
-              Text("Chicken Salad",style: GoogleFonts.cairo(fontWeight: FontWeight.w600,fontSize: 19),),//Title
-              Text("Chicken With Veggies",style: GoogleFonts.cairo(),),//main Ingredients
+              Text(title ?? "Recipe Name",style: GoogleFonts.cairo(fontWeight: FontWeight.w600,fontSize: 19),),//Title
+              Text(subtitle ?? "Main Ingredients",style: GoogleFonts.cairo(),),//main Ingredients
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -604,8 +605,8 @@ class HomePageTile extends StatelessWidget {
 
 
 class HomePageMainTile extends StatelessWidget {
-  final height;
-  const HomePageMainTile({Key? key, this.height}) : super(key: key);
+  final height,title,subtitle,imageURL;
+  const HomePageMainTile({Key? key, this.height, this.title, this.subtitle, this.imageURL}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -643,9 +644,9 @@ class HomePageMainTile extends StatelessWidget {
                 ],
                 borderRadius: BorderRadius.circular(90),
               ),
-              child: const CircleAvatar(
+              child: CircleAvatar(
                 foregroundImage: NetworkImage(
-                    "https://firebasestorage.googleapis.com/v0/b/recipes-book-43e17.appspot.com/o/Assets%2FNicePng_plate-of-food-png_546030.png?alt=media&token=c8be3bff-3bfc-4722-8132-26a7643aeb35"),
+                    imageURL ?? "https://firebasestorage.googleapis.com/v0/b/recipes-book-43e17.appspot.com/o/Assets%2FNicePng_plate-of-food-png_546030.png?alt=media&token=c8be3bff-3bfc-4722-8132-26a7643aeb35"),
                 backgroundColor: Colors.transparent,
                 foregroundColor: Colors.transparent,
                 radius: 75,
@@ -657,8 +658,8 @@ class HomePageMainTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text("Chicken Salad",style: GoogleFonts.cairo(fontWeight: FontWeight.w600,fontSize: 22),),
-                Text("Chicken With Veggies",style: GoogleFonts.cairo(),),//main Ingredients
+                Text(title ?? "Recipe Name",style: GoogleFonts.cairo(fontWeight: FontWeight.w600,fontSize: 22),),
+                Text(subtitle ?? "Main Ingredient",style: GoogleFonts.cairo(),),//main Ingredients
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,

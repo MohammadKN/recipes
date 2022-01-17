@@ -7,17 +7,6 @@ import 'package:recipes/components/components.dart';
 import '../functions/functions.dart';
 import 'add_recipe.dart';
 
-ThemeData _themeData() {
-  return ThemeData(
-    colorScheme: ColorScheme.fromSwatch(
-      primaryColorDark: Colors.red,
-      primarySwatch: Colors.red,
-      accentColor: Colors.red,
-    ),
-  );
-}
-
-
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -44,6 +33,7 @@ class _HomePageState extends State<HomePage> {
     print('HomePage rebuilt');
     var sw = MediaQuery.of(context).size.width;
     var sh = MediaQuery.of(context).size.height;
+    print("$sw ... $sh");
     var _recipesStream = FirebaseFirestore.instance.collection('recipes').snapshots();
     return SafeArea(
       child: Scaffold(
@@ -101,15 +91,20 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),//category
                   const Spacer(),
-                  HomePageMainTile(height: sw/2-50,),
+                  HomePageMainTile(
+                    height: sw/2-50,
+                    title: (snapshot.data!.docs[0].data() as Map<String , dynamic> )["Name"],
+                    subtitle: (snapshot.data!.docs[0].data() as Map<String , dynamic> )["Description"],
+                  ),
                   const Spacer(),
-                  Expanded(
-                    flex: 12,
+                  SizedBox(
+                    height: sh/2.5,
                     child: AnimatedList(
                       physics: BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
                       initialItemCount: snapshot.data!.docs.length,
                       itemBuilder: (BuildContext context, i, animation) {
+                        Map<String, dynamic> data = snapshot.data!.docs[i].data() as Map<String, dynamic>;
                         return SlideTransition(
                           position: animation
                               .drive(Tween(begin: Offset(1.0, 0.0), end: Offset.zero)),
@@ -117,17 +112,20 @@ class _HomePageState extends State<HomePage> {
                               onLongPress: () async {
                                 setState(() {
                                   deleteRecipe(
-                                      context, i, snapshot.data!.docs[i].id.toString());
+                                      context, i, data.toString());
                                 });
+                              },
+                              onTap: (){
+                                print(data["ImageURL"]);
                               },
                               child: snapshot.data!.docs[i].id.isEmpty
                                   ? Container()
                                   : HomePageTile(
                                 key: Key(snapshot.data!.docs[i].id.toString()),
-                                title: snapshot.data!.docs[i].id.toString(),
-                                subtitle: snapshot.data!.docs[i].toString(),
+                                title: data['Name'],
+                                subtitle: data['Description'],
                                 width: sw/2-65,
-                                //imageURL: snapshot.data!.docs[i].imageURL.toString(),
+                                imageURL: data["ImageURL"],
                               )),
                         );
                       },

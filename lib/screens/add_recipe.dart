@@ -61,6 +61,31 @@ class _AddRecipePageState extends State<AddRecipePage> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+
+
+              if (_recipeImage != null)
+                GestureDetector(
+                  onTap: () async {
+                    await takePersonalPhoto();
+                  },
+                  child: CircleAvatar(
+                    radius: screenHeight/11,
+                    backgroundImage: FileImage(_recipeImage),
+                  ),
+                ),
+              if (_recipeImage == null)
+                GestureDetector(
+                  onTap: () async {
+                    await takePersonalPhoto();
+                  },
+                  child: CircleAvatar(
+                    radius: screenHeight/11,
+                    backgroundImage: NetworkImage(
+                        'https://firebasestorage.googleapis.com/v0/b/bus-jo.appspot.com/o/Assets%2FAnonymous.png?alt=media&token=fccfa75f-20f1-43b3-9a5f-6efc705fabc5'),
+                  ),
+                ),
+
+
               AnimatedSwitcher(
                 duration: const Duration(milliseconds: 300),
                 transitionBuilder: (Widget child, Animation<double> animation) {

@@ -5,7 +5,6 @@ import 'package:recipes/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:recipes/models/classes.dart';
 import 'package:recipes/screens/add_recipe.dart';
-import 'package:recipes/screens/register.dart';
 
 
 Future<void> deleteRecipe (BuildContext context, int i, String id) async {
@@ -46,24 +45,25 @@ showToast (String msg) {
 
 Future<void> addRecipe (BuildContext context, String name, String description, String category, String id, List<dynamic> IngredientsArr, _recipeImage) async {
 
-  Future uploadImagesToFirebase() async {
+  Future<String> uploadImagesToFirebase() async {
     var  firebaseStorageRef =
     FirebaseStorage.instance.ref().child('Users/${"user!.uid"}${"user!.phoneNumber"}');
     await firebaseStorageRef.child('Recipe Image').putFile(_recipeImage);
     return await firebaseStorageRef.child('Recipe Image').getDownloadURL();
   }
 
-  uploadImagesToFirebase();
-    if (name != "" && description != "" && category != "" && id != "") {
+  String imageurl = await uploadImagesToFirebase();
+    if (name != "" && description != "" && category != "" && id != "" && imageurl != "") {
       DocumentReference documentReferencer = FirebaseFirestore.instance
           .collection('recipes').doc(id);
 
       Map<String, dynamic> recipeTemplate = <String, dynamic>{
         "Name": name,
-        "description": description,
+        "Description": description,
         "Category": category,
-      };
+        "ImageURL": imageurl,
 
+      };
 
       IngredientsArr.forEach((element) async {
         Map<String, dynamic> ingredientTemplate = <String, dynamic>{
@@ -78,9 +78,6 @@ Future<void> addRecipe (BuildContext context, String name, String description, S
       await documentReferencer.set(recipeTemplate)
           .whenComplete(() => print("Successfully Add To The Database"))
           .catchError((e) => print(e));
-
-
-
 
       Navigator.pop(context);
     }
