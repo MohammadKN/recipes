@@ -80,7 +80,7 @@ class _NextPageBtnState extends State<NextPageBtn> {
       height: 50,
       decoration: BoxDecoration(
           color: isClicked ? Color(0xff000000) : Color(0xFF191919),
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(90),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.35),

@@ -112,7 +112,7 @@ class _HomePageState extends State<HomePage> {
                               onLongPress: () async {
                                 setState(() {
                                   deleteRecipe(
-                                      context, i, data.toString());
+                                      context, i, snapshot.data!.docs[i].id);
                                 });
                               },
                               onTap: (){

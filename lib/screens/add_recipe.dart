@@ -37,7 +37,8 @@ class _AddRecipePageState extends State<AddRecipePage> {
     'MilliLiter',
     'Packet',
     'Kilogram',
-    'Gram'
+    'Gram',
+    'Piece'
   ];
 
   String personalImageURL = '',cardImageURL = '';
