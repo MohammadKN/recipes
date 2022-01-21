@@ -5,6 +5,7 @@ import 'package:recipes/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:recipes/models/classes.dart';
 import 'package:recipes/screens/add_recipe.dart';
+import 'package:recipes/screens/register.dart';
 
 
 Future<void> deleteRecipe (BuildContext context, int i, String id) async {
@@ -27,8 +28,8 @@ Future<void> deleteRecipe (BuildContext context, int i, String id) async {
 
   CollectionReference recipes = FirebaseFirestore.instance.collection('recipes');
 
-  recipes.doc(id).delete().then((value) => print("Recipe Deleted"))
-        .catchError((error) => print("Failed To Delete Recipe: $error"));
+  recipes.doc(id).delete().then((value) => print('Recipe Deleted'))
+        .catchError((error) => print('Failed To Delete Recipe: $error'));
 
 }
 
@@ -44,39 +45,45 @@ showToast (String msg) {
 }
 
 Future<void> addRecipe (BuildContext context, String name, String description, String category, String id, List<dynamic> IngredientsArr, _recipeImage) async {
-
+  List<String> difficulties = [
+    'Easy',
+    'Normal',
+    'Hard',
+    'Very Hard'
+  ];
   Future<String> uploadImagesToFirebase() async {
     var  firebaseStorageRef =
-    FirebaseStorage.instance.ref().child('Users/${"user!.uid"}${"user!.phoneNumber"}');
-    await firebaseStorageRef.child('Recipe Image').putFile(_recipeImage);
-    return await firebaseStorageRef.child('Recipe Image').getDownloadURL();
+    FirebaseStorage.instance.ref().child('Users/${user!.uid}');
+    await firebaseStorageRef.child('$id').putFile(_recipeImage);
+    return await firebaseStorageRef.child('$id').getDownloadURL();
   }
 
   String imageurl = await uploadImagesToFirebase();
-    if (name != "" && description != "" && category != "" && id != "" && imageurl != "") {
+    if (name != '' && description != '' && category != '' && id != '' && imageurl != '') {
       DocumentReference documentReferencer = FirebaseFirestore.instance
           .collection('recipes').doc(id);
 
       Map<String, dynamic> recipeTemplate = <String, dynamic>{
-        "Name": name,
-        "Description": description,
-        "Category": category,
-        "ImageURL": imageurl,
+        'Name': name,
+        'Description': description,
+        'Category': category,
+        'difficulty': difficulties.first,
+        'ImageURL': imageurl,
 
       };
 
       IngredientsArr.forEach((element) async {
         Map<String, dynamic> ingredientTemplate = <String, dynamic>{
-          "Name": element.name,
-          "Amount": element.amount,
-          "Unit": element.unit,
+          'Name': element.name,
+          'Amount': element.amount ?? 1,
+          'Unit': element.unit,
         };
-        await documentReferencer.collection("Ingredients").add(ingredientTemplate)
-          .whenComplete(() => print("Successfully Add To The Database"));
+        await documentReferencer.collection('Ingredients').add(ingredientTemplate)
+          .whenComplete(() => print('Successfully Add To The Database'));
       });
 
       await documentReferencer.set(recipeTemplate)
-          .whenComplete(() => print("Successfully Add To The Database"))
+          .whenComplete(() => print('Successfully Add To The Database'))
           .catchError((e) => print(e));
 
       Navigator.pop(context);
@@ -87,13 +94,10 @@ Future<void> addRecipe (BuildContext context, String name, String description, S
 }
 
 Future<void> addIng(BuildContext context, String name, double amount, String unit) async {
-  if (name != "" && amount != "" && unit != "") {
-
+  if (name != '' && amount != 0 && unit != '') {
     ingredientsArr.add(Ingredient(name, amount, unit));
-
-
-
   }
+
   else {
     showToast('To Continue Please Fill All The Available Fields');
   }

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:recipes/screens/add_recipe.dart';
 import 'package:recipes/screens/register.dart';
 import '../functions/functions.dart';
 export 'circular_avatar.dart';
@@ -14,11 +15,11 @@ class Category {
   Category(this.name, this.checked);
 }
 List<Category> categoriesArr = [
-  Category("Salads", false),
-  Category("Snacks", true),
-  Category("Breakfast", true),
-  Category("Launch", true),
-  Category("Dinner", true),
+  Category('Salads', false),
+  Category('Snacks', true),
+  Category('Breakfast', true),
+  Category('Launch', true),
+  Category('Dinner', true),
 ];
 
 
@@ -31,34 +32,34 @@ class customText extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: HorPad, vertical: VerPad),
       child: Text(
-        "$content",
+        '$content',
         style: GoogleFonts.cairo(color: color, fontSize: size, fontWeight: weight),
       ),
     );
   }
 }
 
-Widget AddIngField() {
-  return TextField(
-    key: ValueKey(2),
-    decoration: InputDecoration(hintText: 'Add Ingredients'),
-  );
+
+class IngChip extends StatelessWidget {
+  final setModalState, imagePath, content, amount, unit;
+  const IngChip({Key? key, this.setModalState, this.imagePath, this.content, this.amount, this.unit}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+      return GestureDetector(
+        onLongPress: () => setModalState(() => deleteIng(content)),
+        child: Chip(
+          avatar: CircleAvatar(
+            foregroundImage: NetworkImage(imagePath),
+            foregroundColor: Colors.blueAccent,
+          ),
+          label: Text(content),
+          backgroundColor: Colors.grey[300],
+        ),
+      );
+  }
 }
 
-
-Widget IngChip(StateSetter setModalState, String imagePath, String content, String amount, String unit) {
-  return GestureDetector(
-    onLongPress: () => setModalState(() => deleteIng(content)),
-    child: Chip(
-      avatar: CircleAvatar(
-        foregroundImage: NetworkImage(imagePath),
-        foregroundColor: Colors.blueAccent,
-      ),
-      label: Text(content),
-      backgroundColor: Colors.grey[300],
-    ),
-  );
-}
 
 
 class NextPageBtn extends StatefulWidget {
@@ -90,7 +91,7 @@ class _NextPageBtnState extends State<NextPageBtn> {
             )
           ]
       ),
-      child: Text("NEXT",
+      child: Text('NEXT',
         style: GoogleFonts.quicksand(
           fontSize: 25,
           fontWeight: FontWeight.w400,
@@ -189,7 +190,7 @@ class EmailTextField extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                "Email Address",
+                'Email Address',
                 style: GoogleFonts.quicksand(color: Color(0xAA222222),
                     fontWeight: FontWeight.w600
                 ),
@@ -240,7 +241,7 @@ class NameTextField extends StatelessWidget {
               blurRadius: 25,
               offset: const Offset(0,10),
               spreadRadius: 5,
-              color: Colors.red.withOpacity(0.2)
+              color: Color(0xFFFF0000).withOpacity(0.2)
           )
         ],
       ),
@@ -254,7 +255,7 @@ class NameTextField extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                "Full Name",
+                'Full Name',
                 style: GoogleFonts.quicksand(color: Color(0xAA222222),
                     fontWeight: FontWeight.w600
                 ),
@@ -303,7 +304,7 @@ class BioTextField extends StatelessWidget {
               blurRadius: 25,
               offset: const Offset(0,10),
               spreadRadius: 5,
-              color: Colors.red.withOpacity(0.2)
+              color: Color(0xFFFF0000).withOpacity(0.2)
           )
         ],
       ),
@@ -317,7 +318,7 @@ class BioTextField extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                "Bio",
+                'Bio',
                 style: GoogleFonts.quicksand(color: Color(0xAA222222),
                     fontWeight: FontWeight.w600
                 ),
@@ -374,7 +375,7 @@ class _PassTextFieldState extends State<PassTextField> {
               blurRadius: 25,
               offset: const Offset(0,10),
               spreadRadius: 5,
-              color: Colors.red.withOpacity(0.2)
+              color: Color(0xFFFF0000).withOpacity(0.2)
           )
         ],
       ),
@@ -387,7 +388,7 @@ class _PassTextFieldState extends State<PassTextField> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child: Text("Password",style: GoogleFonts.quicksand(color: Color(0xAA222222),fontWeight: FontWeight.w600),),
+              child: Text('Password',style: GoogleFonts.quicksand(color: Color(0xAA222222),fontWeight: FontWeight.w600),),
             ),
             Expanded(
               flex: 2,
@@ -446,7 +447,7 @@ class LoginButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(30),
       ),
       child: Text(
-        "Login",
+        'Login',
         style: GoogleFonts.quicksand(color: Color(0xFFFFFFFF),
             fontWeight: FontWeight.w700
         ),
@@ -469,7 +470,7 @@ class RegisterButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(30),
       ),
       child: Text(
-        "Register",
+        'Register',
         style: GoogleFonts.quicksand(color: Color(0xFFFFFFFF),
             fontWeight: FontWeight.w700
         ),
@@ -514,7 +515,7 @@ class _CategoryChipState extends State<CategoryChip> {
           color: categoriesArr[index].checked ? const Color(0xFFF1F1F1) : const Color(0xFF121008),
           borderRadius: BorderRadius.circular(90),
         ),
-        child: Text(widget.name ?? "Salads",
+        child: Text(widget.name ?? 'Salads',
           style: GoogleFonts.cairo(fontWeight: FontWeight.w400, color: categoriesArr[index].checked ? Colors.black : Colors.white),
         ),
       ),
@@ -522,10 +523,70 @@ class _CategoryChipState extends State<CategoryChip> {
   }
 }
 
+class AddRecipeForm extends StatelessWidget {
+  const AddRecipeForm({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return
+      Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+
+            //CircularAvatar(screenHeight / 11, _recipeImage),
+            TextField(
+              controller: nameCont,
+              textInputAction: TextInputAction.next,
+              //autofocus: true,
+              decoration: const InputDecoration(
+                hintText: 'Name',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            TextField(
+              controller: AddRecipePageState().descriptionCont,
+              textInputAction: TextInputAction.next,
+              decoration: const InputDecoration(
+                hintText: 'Description',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            TextField(
+              controller: AddRecipePageState().categoryCont,
+              textInputAction: TextInputAction.next,
+              decoration: const InputDecoration(
+                hintText: 'Category',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            TextField(
+              controller: AddRecipePageState().idCont,
+              textInputAction: TextInputAction.next,
+              decoration: const InputDecoration(
+                hintText: 'ID',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            OutlinedButton(
+                key: const Key('Add Ingredients Btn'),
+                onPressed: ()async {
+                  AddRecipePageState().stackChanger(1);
+                },
+                child: const Text('Add Ingredients')
+            ),
+            ElevatedButton(
+                onPressed: () => addRecipe(context, nameCont.text, AddRecipePageState().descriptionCont.text,
+                    AddRecipePageState().categoryCont.text, AddRecipePageState().idCont.text, ingredientsArr, AddRecipePageState().recipeImage),
+                child: const Text('Add Recipe')
+            ),
+          ]);
+  }
+}
+
 
 class HomePageTile extends StatelessWidget {
-  final width,title,subtitle,imageURL;
-  const HomePageTile({Key? key, this.width, this.title, this.subtitle, this.imageURL}) : super(key: key);
+  final h,w,title,subtitle,imageURL;
+  const HomePageTile({Key? key, this.w, this.title, this.subtitle, this.imageURL, this.h}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -534,8 +595,8 @@ class HomePageTile extends StatelessWidget {
       Container(
         margin: const EdgeInsets.symmetric(vertical: 20,horizontal: 10),
         alignment: Alignment.topCenter,
-        height: 250,
-        width: width,
+        height: 10,
+        width: w/2-65,
         decoration: BoxDecoration(
           color: const Color(0xFFF1F1F1),
           borderRadius: BorderRadius.circular(90),
@@ -549,7 +610,7 @@ class HomePageTile extends StatelessWidget {
           //]
         ),
         child: OverflowBox(
-          maxHeight: 280,
+          maxHeight: 320,
           //maxWidth: 200,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -568,20 +629,20 @@ class HomePageTile extends StatelessWidget {
                 ),
                 child: CircleAvatar(
                   foregroundImage: NetworkImage(
-                      imageURL ?? "https://firebasestorage.googleapis.com/v0/b/recipes-book-43e17.appspot.com/o/Assets%2FNicePng_plate-of-food-png_546030.png?alt=media&token=c8be3bff-3bfc-4722-8132-26a7643aeb35"),
+                      imageURL ?? 'https://firebasestorage.googleapis.com/v0/b/recipes-book-43e17.appspot.com/o/Assets%2FNicePng_plate-of-food-png_546030.png?alt=media&token=c8be3bff-3bfc-4722-8132-26a7643aeb35'),
                   backgroundColor: Colors.transparent,
                   foregroundColor: Colors.transparent,
                   radius: 65,
                 ),
               ),
               const SizedBox(height: 5,),
-              Text(title ?? "Recipe Name",style: GoogleFonts.cairo(fontWeight: FontWeight.w600,fontSize: 19),),//Title
-              Text(subtitle ?? "Main Ingredients",style: GoogleFonts.cairo(),),//main Ingredients
+              Text(title ?? 'Recipe Name',style: GoogleFonts.cairo(fontWeight: FontWeight.w600,fontSize: 19),),//Title
+              Text(subtitle ?? 'Main Ingredients',style: GoogleFonts.cairo(),),//main Ingredients
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children:  [
-                  Text("5.0",style: GoogleFonts.cairo(fontWeight: FontWeight.w600),),//Rating
+                  Text('5.0',style: GoogleFonts.cairo(fontWeight: FontWeight.w600),),//Rating
                   const SizedBox(width: 5,),
                   Icon(CupertinoIcons.star_fill,color: Colors.amberAccent.shade700,size: 17),
                 ],
@@ -646,7 +707,7 @@ class HomePageMainTile extends StatelessWidget {
               ),
               child: CircleAvatar(
                 foregroundImage: NetworkImage(
-                    imageURL ?? "https://firebasestorage.googleapis.com/v0/b/recipes-book-43e17.appspot.com/o/Assets%2FNicePng_plate-of-food-png_546030.png?alt=media&token=c8be3bff-3bfc-4722-8132-26a7643aeb35"),
+                    imageURL ?? 'https://firebasestorage.googleapis.com/v0/b/recipes-book-43e17.appspot.com/o/Assets%2FNicePng_plate-of-food-png_546030.png?alt=media&token=c8be3bff-3bfc-4722-8132-26a7643aeb35'),
                 backgroundColor: Colors.transparent,
                 foregroundColor: Colors.transparent,
                 radius: 75,
@@ -658,13 +719,13 @@ class HomePageMainTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(title ?? "Recipe Name",style: GoogleFonts.cairo(fontWeight: FontWeight.w600,fontSize: 22),),
-                Text(subtitle ?? "Main Ingredient",style: GoogleFonts.cairo(),),//main Ingredients
+                Text(title ?? 'Recipe Name',style: GoogleFonts.cairo(fontWeight: FontWeight.w600,fontSize: 22),),
+                Text(subtitle ?? 'Main Ingredient',style: GoogleFonts.cairo(),),//main Ingredients
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children:  [
-                    Text("5.0",style: GoogleFonts.cairo(fontWeight: FontWeight.w600,fontSize: 20),),//Rating
+                    Text('5.0',style: GoogleFonts.cairo(fontWeight: FontWeight.w600,fontSize: 20),),//Rating
                     const SizedBox(width: 5,),
                     Icon(CupertinoIcons.star_fill,color: Colors.amberAccent.shade700,size: 20),
                   ],
@@ -688,3 +749,42 @@ class HomePageMainTile extends StatelessWidget {
 }
 
 
+Future<void> showMyDialog(BuildContext context) async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: true, // user must tap button!
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Choose Image Source'),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: const <Widget>[
+              Text('This is a demo alert dialog.'),
+              Text('Would you like to approve of this message?'),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              TextButton(
+                child: const Text('Camera'),
+                onPressed: () {
+                  AddRecipePageState().takePersonalPhoto();
+                },
+              ),
+              TextButton(
+                child: const Text('Device Files'),
+                onPressed: () {
+                  Navigator.pop(context);
+                  AddRecipePageState().pickPersonalPhoto();
+                },
+              ),
+            ],
+          ),
+        ],
+      );
+    },
+  );
+}

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide showBottomSheet;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:line_icons/line_icons.dart';
@@ -30,10 +31,14 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    print('HomePage rebuilt');
+    if (kDebugMode) {
+      print('HomePage rebuilt');
+    }
     var sw = MediaQuery.of(context).size.width;
     var sh = MediaQuery.of(context).size.height;
-    print("$sw ... $sh");
+    if (kDebugMode) {
+      print('$sw ... $sh');
+    }
     var _recipesStream = FirebaseFirestore.instance.collection('recipes').snapshots();
     return SafeArea(
       child: Scaffold(
@@ -42,13 +47,14 @@ class _HomePageState extends State<HomePage> {
         stream: _recipesStream,
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
-            return Text('Something went wrong');
-          } else if (snapshot.connectionState == ConnectionState.waiting)
+            return const Text('Something went wrong');
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
               child: CircularProgressIndicator(
                 color: Theme.of(context).primaryColor,
               ),
-          ); else
+            );
+          } else if (snapshot.data!.docs.isEmpty ) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18.0),
               child: Column(
@@ -64,7 +70,7 @@ class _HomePageState extends State<HomePage> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "Delicious Recipes",
+                      'Delicious Recipes',
                       style: GoogleFonts.cairo(
                           fontWeight: FontWeight.w700,
                           fontSize: 26
@@ -74,13 +80,30 @@ class _HomePageState extends State<HomePage> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "Here You Can Find The Best Recipes.",
+                      'Here You Can Find The Best Recipes.',
                       style: GoogleFonts.cairo(
                         fontWeight: FontWeight.w400,
                         fontSize: 18,
                       ),
                     ),
                   ),//subtitle
+                  const Spacer(),
+                  HomePageMainTile(
+                    height: sw/2-50,
+                    title: '  ',
+                    subtitle: '  ',
+                  ),
+                  //const Spacer(),
+                  ////Align(
+                  ////  alignment: Alignment.centerLeft,
+                  ////  child: Text(
+                  ////    "Categories",
+                  ////    style: GoogleFonts.cairo(
+                  ////        fontWeight: FontWeight.w700,
+                  ////        fontSize: 22
+                  ////    ),
+                  ////  ),
+                  //),//t
                   const Spacer(),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
@@ -91,23 +114,133 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),//category
                   const Spacer(),
+                  SizedBox(
+                    height: sh/2.5,
+                    child: SizedBox(
+                      height: sh/2.5,
+                      child: const Text('No Recipes Found'),
+                    ),
+                  ),
+                  const Spacer(),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      margin: const EdgeInsets.only(bottom: 20),
+                      alignment: Alignment.center,
+                      height: 65,
+                      width: sw-40,
+                      decoration: BoxDecoration(
+                          color: const Color(0xff121008),
+                          borderRadius: BorderRadius.circular(25),
+                          boxShadow: const [
+                            BoxShadow(
+                                offset: Offset(5, 15),
+                                blurRadius: 20,
+                                spreadRadius: 5,
+                                color: Colors.black26
+                            )
+                          ]
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          IconButton(onPressed: (){}, icon: const Icon(LineIcons.home,color: Colors.white,)),
+                          IconButton(onPressed: (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const AddRecipePage()),
+                            );
+                          },
+                            icon: const Icon(
+                              LineIcons.plus,
+                              color: Colors.white,
+                            ),
+                          ),
+                          IconButton(onPressed: (){}, icon: const Icon(LineIcons.road,color: Colors.white,)),
+                          IconButton(onPressed: (){}, icon: const Icon(LineIcons.fileContract,color: Colors.white,)),
+                        ],
+                      ),
+                    ),
+                  ),///Bottom AppBar
+                ],
+              ),
+            );
+          } else {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18.0),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(onPressed: (){}, icon: const Icon(LineIcons.list)),
+                      IconButton(onPressed: (){}, icon: const Icon(LineIcons.search)),
+                    ],
+                  ),
+                  const Spacer(),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Delicious Recipes',
+                      style: GoogleFonts.cairo(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 26
+                      ),
+                    ),
+                  ),//title
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Here You Can Find The Best Recipes.',
+                      style: GoogleFonts.cairo(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),//subtitle
+                  const Spacer(),
                   HomePageMainTile(
                     height: sw/2-50,
-                    title: (snapshot.data!.docs[0].data() as Map<String , dynamic> )["Name"],
-                    subtitle: (snapshot.data!.docs[0].data() as Map<String , dynamic> )["Description"],
+                    title: (snapshot.data!.docs[0].data() as Map<String , dynamic> )['Name'],
+                    subtitle: (snapshot.data!.docs[0].data() as Map<String , dynamic> )['Description'],
                   ),
+                  //const Spacer(),
+                  ////Align(
+                  ////  alignment: Alignment.centerLeft,
+                  ////  child: Text(
+                  ////    "Categories",
+                  ////    style: GoogleFonts.cairo(
+                  ////        fontWeight: FontWeight.w700,
+                  ////        fontSize: 22
+                  ////    ),
+                  ////  ),
+                  //),//t
+                  const Spacer(),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    physics: const BouncingScrollPhysics(),
+                    child: Wrap(
+                      spacing: 7,
+                      children: categoriesArr.map((i) => CategoryChip(name: i.name)).toList(),
+                    ),
+                  ),//category
                   const Spacer(),
                   SizedBox(
                     height: sh/2.5,
-                    child: AnimatedList(
-                      physics: BouncingScrollPhysics(),
+                    child: snapshot.data!.docs.isEmpty?
+                    SizedBox(
+                      height: sh/2.7,
+                      child: const Text('No Recipes Found'),
+                    ) :AnimatedList(
+                      physics: const BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
                       initialItemCount: snapshot.data!.docs.length,
                       itemBuilder: (BuildContext context, i, animation) {
                         Map<String, dynamic> data = snapshot.data!.docs[i].data() as Map<String, dynamic>;
                         return SlideTransition(
                           position: animation
-                              .drive(Tween(begin: Offset(1.0, 0.0), end: Offset.zero)),
+                              .drive(Tween(begin: const Offset(1.0, 0.0), end: Offset.zero)),
                           child: GestureDetector(
                               onLongPress: () async {
                                 setState(() {
@@ -116,7 +249,9 @@ class _HomePageState extends State<HomePage> {
                                 });
                               },
                               onTap: (){
-                                print(data["ImageURL"]);
+                                if (kDebugMode) {
+                                  print(data['ImageURL']);
+                                }
                               },
                               child: snapshot.data!.docs[i].id.isEmpty
                                   ? Container()
@@ -124,8 +259,8 @@ class _HomePageState extends State<HomePage> {
                                 key: Key(snapshot.data!.docs[i].id.toString()),
                                 title: data['Name'],
                                 subtitle: data['Description'],
-                                width: sw/2-65,
-                                imageURL: data["ImageURL"],
+                                w: sw,
+                                imageURL: data['ImageURL'],
                               )),
                         );
                       },
@@ -159,7 +294,7 @@ class _HomePageState extends State<HomePage> {
                           IconButton(onPressed: (){
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => AddRecipePage()),
+                              MaterialPageRoute(builder: (context) => const AddRecipePage()),
                             );
                             },
                               icon: const Icon(
@@ -176,6 +311,7 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             );
+          }
           }
         ),
       ),

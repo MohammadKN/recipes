@@ -47,6 +47,7 @@ class _RegisterPageState extends State<RegisterPage> {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
+          backgroundColor: Colors.white,
           resizeToAvoidBottomInset: true,
           body: SingleChildScrollView(
             physics: BouncingScrollPhysics(),
@@ -66,7 +67,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         await takePersonalPhoto();
                       },
                       child: CircleAvatar(
-                        backgroundColor: Colors.red,
+                        backgroundColor: Color(0xFFFF0000),
                         //backgroundImage: FileImage(anonImage),
                         radius: 65,
                       ),
@@ -103,6 +104,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
                         GestureDetector(
                           onTap: (){
+
                             passwordCont.clear();
                             nameCont.clear();
                             bioCont.clear();

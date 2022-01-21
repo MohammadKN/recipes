@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:recipes/models/classes.dart';
@@ -11,19 +12,18 @@ class AddRecipePage extends StatefulWidget {
   const AddRecipePage({Key? key}) : super(key: key);
 
   @override
-  _AddRecipePageState createState() => _AddRecipePageState();
+  AddRecipePageState createState() => AddRecipePageState();
 }
 
-class _AddRecipePageState extends State<AddRecipePage> {
+class AddRecipePageState extends State<AddRecipePage> {
 
 
   var descriptionCont = TextEditingController();
-  var IngSearchCont = TextEditingController();
+  var ingSearchCont = TextEditingController();
   var categoryCont = TextEditingController();
   var amountCont = TextEditingController();
   var nameCont = TextEditingController();
   var idCont = TextEditingController();
-  FocusNode focusNodeDrop = FocusNode();
   int stackIndex = 0;
   String dropdownValue = 'Kilogram';
   var _count = 0;
@@ -38,16 +38,29 @@ class _AddRecipePageState extends State<AddRecipePage> {
     'Packet',
     'Kilogram',
     'Gram',
-    'Piece'
+    'Piece',
   ];
+
+  void stackChanger (int target){
+    setState(()  {
+      stackIndex = 1;
+      _count++;
+    });
+  }
 
   String personalImageURL = '',cardImageURL = '';
   final picker = ImagePicker();
-  var _recipeImage;
+  var recipeImage;
   Future takePersonalPhoto() async {
     final pickedFile = await picker.pickImage(source: ImageSource.values[0]);
     setState(() {
-      _recipeImage = File(pickedFile!.path);
+      recipeImage = File(pickedFile!.path);
+    });
+  }
+  Future pickPersonalPhoto() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.values[1]);
+    setState(() {
+      recipeImage = File(pickedFile!.path);
     });
   }
 
@@ -58,30 +71,28 @@ class _AddRecipePageState extends State<AddRecipePage> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: Container(
-          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 25),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 25),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-
-
-              if (_recipeImage != null)
+              if (recipeImage != null)
                 GestureDetector(
                   onTap: () async {
-                    await takePersonalPhoto();
+                    showMyDialog(context);
                   },
                   child: CircleAvatar(
                     radius: screenHeight/11,
-                    backgroundImage: FileImage(_recipeImage),
+                    backgroundImage: FileImage(recipeImage),
                   ),
                 ),
-              if (_recipeImage == null)
+              if (recipeImage == null)
                 GestureDetector(
                   onTap: () async {
-                    await takePersonalPhoto();
+                    showMyDialog(context);
                   },
                   child: CircleAvatar(
                     radius: screenHeight/11,
-                    backgroundImage: NetworkImage(
+                    backgroundImage: const NetworkImage(
                         'https://firebasestorage.googleapis.com/v0/b/bus-jo.appspot.com/o/Assets%2FAnonymous.png?alt=media&token=fccfa75f-20f1-43b3-9a5f-6efc705fabc5'),
                   ),
                 ),
@@ -98,57 +109,8 @@ class _AddRecipePageState extends State<AddRecipePage> {
                   index: stackIndex,
                   key: ValueKey<int>(_count),
                   children: [
-                    Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
 
-                          //CircularAvatar(screenHeight / 11, _recipeImage),
-                          TextField(
-                            controller: nameCont,
-                            textInputAction: TextInputAction.next,
-                            //autofocus: true,
-                            decoration: InputDecoration(
-                              hintText: "Name",
-                            ),
-                          ),
-                          TextField(
-                            controller: descriptionCont,
-                            textInputAction: TextInputAction.next,
-                            decoration: InputDecoration(
-                              hintText: "Description",
-                            ),
-                          ),
-                          TextField(
-                            controller: categoryCont,
-                            textInputAction: TextInputAction.next,
-                            decoration: InputDecoration(
-                              hintText: "Category",
-                            ),
-                          ),
-                          TextField(
-                            controller: idCont,
-                            textInputAction: TextInputAction.next,
-                            decoration: InputDecoration(
-                              hintText: "ID",
-                            ),
-                            onTap: () {
-                              print(MediaQuery.of(context).viewInsets.bottom);
-                            },
-                          ),
-                          OutlinedButton(
-                              key: Key("Add Ingredients Btn"),
-                              onPressed: ()async {
-                                setState(()  {
-                                  stackIndex = 1;
-                                  _count++;
-                                });
-                              },
-                              child: Text('Add Ingredients')),
-                          ElevatedButton(
-                              onPressed: () => addRecipe(context, nameCont.text, descriptionCont.text,
-                                  categoryCont.text, idCont.text, ingredientsArr, _recipeImage),
-                              child: Text("Add Recipe")),
-                        ]),
+                    const AddRecipeForm(),
 
                     Stack(
                       children: [
@@ -161,17 +123,17 @@ class _AddRecipePageState extends State<AddRecipePage> {
                                 runSpacing: -8,
                                 children: ingredientsArr
                                     .map((item) => IngChip(
-                                    setState,
-                                    "https://cdn.loveandlemons.com/wp-content/uploads/2020/03/how-to-cook-rice.jpg",
-                                    item.name,
-                                    item.amount.toString(),
-                                    item.unit))
+                                    setModalState : setState,
+                                    imagePath: 'https://cdn.loveandlemons.com/wp-content/uploads/2020/03/how-to-cook-rice.jpg',
+                                    content: item.name,
+                                    amount: item.amount.toString(),
+                                    unit: item.unit))
                                     .toList()
                                     .cast<Widget>(),
                                 //
                               ),
 
-                              Container(
+                              SizedBox(
                                 width: MediaQuery.of(context).size.width,
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -180,50 +142,57 @@ class _AddRecipePageState extends State<AddRecipePage> {
                                     Expanded(
                                       flex: 8,
                                       child: TextField(
-                                        controller: IngSearchCont,
+                                        controller: ingSearchCont,
                                         textInputAction: TextInputAction.next,
-                                        key: Key("Ingredient Name Field"),
-                                        decoration: InputDecoration(
+                                        key: const Key('Ingredient Name Field'),
+                                        decoration: const InputDecoration(
                                           hintText: 'Ingredient Name',
                                         ),
-                                        onTap: () => print(MediaQuery.of(context).viewInsets.bottom),
+                                        onTap: () {
+                                          if (kDebugMode) {
+                                            print(MediaQuery
+                                              .of(context)
+                                              .viewInsets
+                                              .bottom);
+                                          }
+                                        },
                                       ),
                                     ),
-                                    Spacer(flex: 1),
+                                    const Spacer(flex: 1),
                                     Expanded(
                                       flex: 5,
                                       child: TextField(
                                         controller: amountCont,
                                         keyboardType: TextInputType.number,
                                         textInputAction: TextInputAction.next,
-                                        key: Key('Amount Field'),
-                                        decoration: InputDecoration(
+                                        key: const Key('Amount Field'),
+                                        decoration: const InputDecoration(
                                           hintText: 'Amount',
                                         ),
                                       ),
                                     ),
-                                    Spacer(flex: 1),
+                                    const Spacer(flex: 1),
                                     Expanded(
                                       flex: 8,
                                       child: DropdownButton<String>(
                                         focusColor: Colors.white,
                                         value: dropdownValue,
                                         //elevation: 5,
-                                        style: TextStyle(color: Colors.white),
+                                        style: const TextStyle(color: Colors.white),
                                         iconEnabledColor: Colors.black,
                                         items: units.map<DropdownMenuItem<String>>((String value) {
                                           return DropdownMenuItem<String>(
                                             value: value,
                                             child: Text(
                                               value,
-                                              style: TextStyle(color: Colors.black),
+                                              style: const TextStyle(color: Colors.black),
                                             ),
                                           );
                                         }).toList(),
                                         hint: Text(
                                           dropdownValue,
                                           style:
-                                          TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w500),
+                                          const TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w500),
                                         ),
                                         onChanged: (String? value) {
                                           setState(() {
@@ -239,54 +208,64 @@ class _AddRecipePageState extends State<AddRecipePage> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   OutlinedButton(
-                                      key: Key("Cancel Btn"),
+                                      key: const Key('Cancel Btn'),
                                       onPressed: () {
-                                        print("0");
+                                        if (kDebugMode) {
+                                          print('0');
+                                        }
                                         setState(() {
-                                          IngSearchCont.clear();
+                                          ingSearchCont.clear();
                                           amountCont.clear();
                                           dropdownValue = 'Kilogram';
                                           ingredientsArr.clear();
                                           stackIndex = 0;
-                                          print("1");
+                                          if (kDebugMode) {
+                                            print('1');
+                                          }
                                         });
                                       },
                                       style: ButtonStyle(
                                         foregroundColor: MaterialStateProperty.all(Colors.red),
                                       ),
-                                      child: Text('Cancel')
+                                      child: const Text('Cancel')
                                   ),
                                   OutlinedButton(
-                                      key: Key("Add Ingredients Btn"),
+                                      key: const Key('Add Ingredients Btn'),
                                       onPressed: () {
                                         setState(() {
                                           addIng(
                                             context,
-                                            IngSearchCont.text,
+                                            ingSearchCont.text,
                                             double.parse(amountCont.text.toString()).toDouble(),
                                             dropdownValue.toString(),
                                           );
-                                          print(ingredientsArr);
-                                          IngSearchCont.clear();
+                                          if (kDebugMode) {
+                                            print(ingredientsArr);
+                                          }
+                                          ingSearchCont.clear();
                                           amountCont.clear();
                                           dropdownValue = 'Kilogram';
                                         });
                                       },
-                                      child: Text('Add Ingredient')
+                                      child: const Text('Add Ingredient')
                                   ),
                                   OutlinedButton(
-                                      key: Key("Done Btn"),
+                                      key: const Key('Done Btn'),
                                       onPressed: () {
-                                        print("0");
+                                        if (kDebugMode) {
+                                          print('0');
+                                        }
                                         setState(() {
                                           stackIndex = 0;
-                                          print("1");
+                                          if (kDebugMode) {
+                                            print('1');
+                                          }
                                         });
                                       },
                                       style: ButtonStyle(
                                         foregroundColor: MaterialStateProperty.all(Colors.red),
                                       ),
-                                      child: Text('Done')
+                                      child: const Text('Done')
                                   ),
                                 ],
                               ),

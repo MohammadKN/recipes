@@ -1,9 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart' hide showBottomSheet;
 import 'package:flutter/services.dart';
+import 'package:recipes/screens/add_recipe.dart';
 import 'package:recipes/screens/home.dart';
-import 'package:recipes/screens/register.dart';
-import 'package:recipes/screens/start_up1.dart';
 import 'package:recipes/theme/style.dart';
 
 const ForwardDuration = 200;
@@ -23,11 +22,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: theme(),
       home: Stack(
-        children: [
+        children: const [
           //if (FirebaseAuth.instance.currentUser == null)
           //  LoginPage()
           //else
-          StartUpPage1(),
+          AddRecipePage(),
         ],
       )
     );
