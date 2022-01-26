@@ -1,9 +1,12 @@
+// ignore_for_file: non_constant_identifier_names, prefer_typing_uninitialized_variables
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:recipes/screens/add_recipe.dart';
+import 'package:recipes/screens/recipe.dart';
 import 'package:recipes/screens/register.dart';
 import '../functions/functions.dart';
 export 'circular_avatar.dart';
@@ -80,13 +83,13 @@ class _NextPageBtnState extends State<NextPageBtn> {
       alignment: Alignment.center,
       height: 50,
       decoration: BoxDecoration(
-          color: isClicked ? Color(0xff000000) : Color(0xFF191919),
+          color: isClicked ? const Color(0xff000000) : const Color(0xFF191919),
           borderRadius: BorderRadius.circular(90),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.35),
               blurRadius: 0,
-              offset: isClicked ? Offset(0,0) : Offset(2, 2),
+              offset: isClicked ? const Offset(0,0) : const Offset(2, 2),
               spreadRadius: isClicked ? 0 : 1,
             )
           ]
@@ -100,7 +103,7 @@ class _NextPageBtnState extends State<NextPageBtn> {
             BoxShadow(
               color: Colors.white.withOpacity(0.25),
               blurRadius: 0,
-              offset: Offset(1,1),
+              offset: const Offset(1,1),
               spreadRadius: 0,
             ),
           ],
@@ -128,7 +131,7 @@ class CustomizableText extends StatelessWidget {
           BoxShadow(
             color: Colors.black.withOpacity(0.25),
             blurRadius: 0,
-            offset: Offset(1,1),
+            offset: const Offset(1,1),
             spreadRadius: 0,
           ),
         ],
@@ -140,17 +143,17 @@ class CustomizableText extends StatelessWidget {
 
 Route SlideTransitions (var Target) {
   return PageRouteBuilder(
-    transitionDuration: Duration(milliseconds: 0),
+    transitionDuration: const Duration(milliseconds: 500),
     pageBuilder: (context, animation, secondaryAnimation) => Target,
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(1.0, 0.0);
-      const end = Offset.zero;
+      const begin = 0.0;
+      const end = 1.0;
       const curve = Curves.easeInQuint;
 
 
       var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-      return SlideTransition(
-        position: animation.drive(tween),
+      return FadeTransition(
+        opacity: animation.drive(tween),
         child: child,
       );
     },
@@ -191,7 +194,7 @@ class EmailTextField extends StatelessWidget {
             Expanded(
               child: Text(
                 'Email Address',
-                style: GoogleFonts.quicksand(color: Color(0xAA222222),
+                style: GoogleFonts.quicksand(color: const Color(0xAA222222),
                     fontWeight: FontWeight.w600
                 ),
               ),
@@ -241,7 +244,7 @@ class NameTextField extends StatelessWidget {
               blurRadius: 25,
               offset: const Offset(0,10),
               spreadRadius: 5,
-              color: Color(0xFFFF0000).withOpacity(0.2)
+              color: const Color(0xFFFF0000).withOpacity(0.2)
           )
         ],
       ),
@@ -256,7 +259,7 @@ class NameTextField extends StatelessWidget {
             Expanded(
               child: Text(
                 'Full Name',
-                style: GoogleFonts.quicksand(color: Color(0xAA222222),
+                style: GoogleFonts.quicksand(color: const Color(0xAA222222),
                     fontWeight: FontWeight.w600
                 ),
               ),
@@ -304,7 +307,7 @@ class BioTextField extends StatelessWidget {
               blurRadius: 25,
               offset: const Offset(0,10),
               spreadRadius: 5,
-              color: Color(0xFFFF0000).withOpacity(0.2)
+              color: const Color(0xFFFF0000).withOpacity(0.2)
           )
         ],
       ),
@@ -319,7 +322,7 @@ class BioTextField extends StatelessWidget {
             Expanded(
               child: Text(
                 'Bio',
-                style: GoogleFonts.quicksand(color: Color(0xAA222222),
+                style: GoogleFonts.quicksand(color: const Color(0xAA222222),
                     fontWeight: FontWeight.w600
                 ),
               ),
@@ -375,7 +378,7 @@ class _PassTextFieldState extends State<PassTextField> {
               blurRadius: 25,
               offset: const Offset(0,10),
               spreadRadius: 5,
-              color: Color(0xFFFF0000).withOpacity(0.2)
+              color: const Color(0xFFFF0000).withOpacity(0.2)
           )
         ],
       ),
@@ -388,7 +391,7 @@ class _PassTextFieldState extends State<PassTextField> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child: Text('Password',style: GoogleFonts.quicksand(color: Color(0xAA222222),fontWeight: FontWeight.w600),),
+              child: Text('Password',style: GoogleFonts.quicksand(color: const Color(0xAA222222),fontWeight: FontWeight.w600),),
             ),
             Expanded(
               flex: 2,
@@ -402,7 +405,7 @@ class _PassTextFieldState extends State<PassTextField> {
                       obscureText: _obscure ? true : false,
                       cursorColor: Colors.red,
                       decoration: InputDecoration(
-                        icon: Icon(CupertinoIcons.lock),
+                        icon: const Icon(CupertinoIcons.lock),
                         border: InputBorder.none,
                         suffixIcon: GestureDetector(
                           onTap: (){
@@ -448,7 +451,7 @@ class LoginButton extends StatelessWidget {
       ),
       child: Text(
         'Login',
-        style: GoogleFonts.quicksand(color: Color(0xFFFFFFFF),
+        style: GoogleFonts.quicksand(color: const Color(0xFFFFFFFF),
             fontWeight: FontWeight.w700
         ),
       ),
@@ -471,7 +474,7 @@ class RegisterButton extends StatelessWidget {
       ),
       child: Text(
         'Register',
-        style: GoogleFonts.quicksand(color: Color(0xFFFFFFFF),
+        style: GoogleFonts.quicksand(color: const Color(0xFFFFFFFF),
             fontWeight: FontWeight.w700
         ),
       ),
@@ -508,6 +511,7 @@ class _CategoryChipState extends State<CategoryChip> {
       },
       child: Container(
         key: Key(widget.name),
+        margin: EdgeInsets.symmetric(horizontal: 7),
         height: 40,
         width: 90,
         alignment: Alignment.center,
@@ -585,78 +589,98 @@ class AddRecipeForm extends StatelessWidget {
 
 
 class HomePageTile extends StatelessWidget {
-  final h,w,title,subtitle,imageURL;
-  const HomePageTile({Key? key, this.w, this.title, this.subtitle, this.imageURL, this.h}) : super(key: key);
+  final h,w,title,subtitle,imageURL,id,index;
+  const HomePageTile({Key? key, this.w, this.title, this.subtitle, this.imageURL, this.h, this.id, this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    print(imageURL);
-    return
-      Container(
-        margin: const EdgeInsets.symmetric(vertical: 20,horizontal: 10),
-        alignment: Alignment.topCenter,
-        height: 10,
-        width: w/2-65,
-        decoration: BoxDecoration(
-          color: const Color(0xFFF1F1F1),
-          borderRadius: BorderRadius.circular(90),
-          //boxShadow: [
-          //  BoxShadow(
-          //      offset: Offset(0, 15),
-          //      blurRadius: 20,
-          //      spreadRadius: 5,
-          //      color: Colors.deepOrange.shade100
-          //  )
-          //]
-        ),
-        child: OverflowBox(
-          maxHeight: 320,
-          //maxWidth: 200,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return GestureDetector(
+        onLongPress: () async {
+            deleteRecipe(
+                context, index, id);
+        },
+        onTap: (){
+          NavTo(context,  RecipePage(title: title,subtitle: subtitle,imageURL: imageURL,id: id,index: index,));
+        },
+        child: Container(
+          height: 300,
+          width: w/2-65,
+          margin: const EdgeInsets.symmetric(vertical: 20,horizontal: 10),
+          child: Stack(
             children: [
-              Container(
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                        offset: const Offset(5, 15),
-                        blurRadius: 12,
-                        spreadRadius: 1,
-                        color: Colors.black.withOpacity(0.12)
-                    )
-                  ],
-                  borderRadius: BorderRadius.circular(90),
-                ),
-                child: CircleAvatar(
-                  foregroundImage: NetworkImage(
-                      imageURL ?? 'https://firebasestorage.googleapis.com/v0/b/recipes-book-43e17.appspot.com/o/Assets%2FNicePng_plate-of-food-png_546030.png?alt=media&token=c8be3bff-3bfc-4722-8132-26a7643aeb35'),
-                  backgroundColor: Colors.transparent,
-                  foregroundColor: Colors.transparent,
-                  radius: 65,
+              Hero(
+                tag: '$id bg',
+                child: Container(
+                  alignment: Alignment.topCenter,
+                  height: 300,
+                  width: w/2-65,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF1F1F1),
+                    borderRadius: BorderRadius.circular(90),
+                    //boxShadow: [
+                    //  BoxShadow(
+                    //      offset: Offset(0, 15),
+                    //      blurRadius: 20,
+                    //      spreadRadius: 5,
+                    //      color: Colors.deepOrange.shade100
+                    //  )
+                    //]
+                  ),
                 ),
               ),
-              const SizedBox(height: 5,),
-              Text(title ?? 'Recipe Name',style: GoogleFonts.cairo(fontWeight: FontWeight.w600,fontSize: 19),),//Title
-              Text(subtitle ?? 'Main Ingredients',style: GoogleFonts.cairo(),),//main Ingredients
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children:  [
-                  Text('5.0',style: GoogleFonts.cairo(fontWeight: FontWeight.w600),),//Rating
-                  const SizedBox(width: 5,),
-                  Icon(CupertinoIcons.star_fill,color: Colors.amberAccent.shade700,size: 17),
-                ],
-              ),
+                OverflowBox(
+                  maxHeight: 320,
+                  maxWidth: w/2-65,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                                offset: const Offset(5, 15),
+                                blurRadius: 12,
+                                spreadRadius: 1,
+                                color: Colors.black.withOpacity(0.12)
+                            )
+                          ],
+                          borderRadius: BorderRadius.circular(90),
+                        ),
+                        child: Hero(
+                          tag: '$id image',
+                          transitionOnUserGestures: true,
+                          child: CircleAvatar(
+                            foregroundImage: NetworkImage(
+                                imageURL ?? 'https://firebasestorage.googleapis.com/v0/b/recipes-book-43e17.appspot.com/o/Assets%2FNicePng_plate-of-food-png_546030.png?alt=media&token=c8be3bff-3bfc-4722-8132-26a7643aeb35'),
+                            backgroundColor: Colors.transparent,
+                            foregroundColor: Colors.transparent,
+                            radius: 65,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 5,),
+                      Hero(
+                          tag: '$id title',
+                          child: Text(title ?? 'Recipe Name',style: GoogleFonts.cairo(fontWeight: FontWeight.w600,fontSize: 19),)),//Title
+                      Hero(
+                          tag: '$id subtitle',
+                          child: Text(subtitle ?? 'Main Ingredients',style: GoogleFonts.cairo(),)),//main Ingredients
+                      Hero(
+                          tag: '$id rating',
+                          child: const RatingWidget()),
 
-              Container(
-                height: 35,
-                width: 35,
-                decoration: BoxDecoration(
-                  color: const Color(0xff121008),
-                  borderRadius: BorderRadius.circular(90),
+                      Container(
+                        height: 35,
+                        width: 35,
+                        decoration: BoxDecoration(
+                          color: const Color(0xff121008),
+                          borderRadius: BorderRadius.circular(90),
+                        ),
+                        child: const Icon(LineIcons.plus,color: Colors.white,size: 17,),
+                      ),
+                    ],
+                  ),
                 ),
-                child: const Icon(LineIcons.plus,color: Colors.white,size: 17,),
-              ),
             ],
           ),
         ),
@@ -664,6 +688,22 @@ class HomePageTile extends StatelessWidget {
   }
 }
 
+class RatingWidget extends StatelessWidget {
+  const RatingWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children:  [
+        Text('5.0',style: GoogleFonts.cairo(fontWeight: FontWeight.w600),),//Rating
+        const SizedBox(width: 5,),
+        Icon(CupertinoIcons.star_fill,color: Colors.amberAccent.shade700,size: 17),
+      ],
+    );
+  }
+}
 
 class HomePageMainTile extends StatelessWidget {
   final height,title,subtitle,imageURL;

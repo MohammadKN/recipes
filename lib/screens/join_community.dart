@@ -21,7 +21,7 @@ class _JoinCommunityPageState extends State<JoinCommunityPage> with TickerProvid
   void initState()  {
     joinAnimationController = AnimationController(
       duration: Duration(milliseconds: 0),
-      reverseDuration: Duration(milliseconds: ForwardDuration),
+      reverseDuration: Duration(milliseconds: forwardDuration),
       vsync: this,
     )..forward();
     super.initState();
@@ -42,12 +42,12 @@ class _JoinCommunityPageState extends State<JoinCommunityPage> with TickerProvid
       onWillPop: () async {
         setState(() {
           joinAnimationController = AnimationController(
-            duration: Duration(milliseconds: ForwardDuration),
-            reverseDuration: Duration(milliseconds: ForwardDuration),
+            duration: Duration(milliseconds: forwardDuration),
+            reverseDuration: Duration(milliseconds: forwardDuration),
             vsync: this,
           )..forward();
         });
-        await Future.delayed(Duration(milliseconds: ForwardDuration));
+        await Future.delayed(Duration(milliseconds: forwardDuration));
         NavTo(context, StartUpPage2());
         return false;
       },
@@ -111,12 +111,12 @@ class _JoinCommunityPageState extends State<JoinCommunityPage> with TickerProvid
                           onTap: () async {
                             setState(() {
                               joinAnimationController = AnimationController(
-                                duration: Duration(milliseconds: ForwardDuration),
-                                reverseDuration: Duration(milliseconds: ForwardDuration),
+                                duration: Duration(milliseconds: forwardDuration),
+                                reverseDuration: Duration(milliseconds: forwardDuration),
                                 vsync: this,
                               )..forward();
                             });
-                            await Future.delayed(Duration(milliseconds: ForwardDuration));
+                            await Future.delayed(Duration(milliseconds: forwardDuration));
                             NavTo(context, RegisterPage());
                           },
                           child: NextPageBtn(index: 0,),

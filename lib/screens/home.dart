@@ -22,6 +22,7 @@ class _HomePageState extends State<HomePage> {
 
     return firebaseApp;
   }
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -55,185 +56,187 @@ class _HomePageState extends State<HomePage> {
               ),
             );
           } else if (snapshot.data!.docs.isEmpty ) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18.0),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(onPressed: (){}, icon: const Icon(LineIcons.list)),
-                      IconButton(onPressed: (){}, icon: const Icon(LineIcons.search)),
-                    ],
+            return Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(onPressed: (){}, icon: const Icon(LineIcons.list)),
+                    IconButton(onPressed: (){}, icon: const Icon(LineIcons.search)),
+                  ],
+                ),
+                const Spacer(),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Delicious Recipes',
+                    style: GoogleFonts.cairo(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 26
+                    ),
                   ),
-                  const Spacer(),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Delicious Recipes',
-                      style: GoogleFonts.cairo(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 26
-                      ),
+                ),//title
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Here You Can Find The Best Recipes.',
+                    style: GoogleFonts.cairo(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 18,
                     ),
-                  ),//title
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Here You Can Find The Best Recipes.',
-                      style: GoogleFonts.cairo(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 18,
-                      ),
-                    ),
-                  ),//subtitle
-                  const Spacer(),
-                  HomePageMainTile(
-                    height: sw/2-50,
-                    title: '  ',
-                    subtitle: '  ',
                   ),
-                  //const Spacer(),
-                  ////Align(
-                  ////  alignment: Alignment.centerLeft,
-                  ////  child: Text(
-                  ////    "Categories",
-                  ////    style: GoogleFonts.cairo(
-                  ////        fontWeight: FontWeight.w700,
-                  ////        fontSize: 22
-                  ////    ),
-                  ////  ),
-                  //),//t
-                  const Spacer(),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    physics: const BouncingScrollPhysics(),
-                    child: Wrap(
-                      spacing: 7,
-                      children: categoriesArr.map((i) => CategoryChip(name: i.name)).toList(),
-                    ),
-                  ),//category
-                  const Spacer(),
-                  SizedBox(
+                ),//subtitle
+                const Spacer(),
+                HomePageMainTile(
+                  height: sw/2-50,
+                  title: '  ',
+                  subtitle: '  ',
+                ),
+                //const Spacer(),
+                ////Align(
+                ////  alignment: Alignment.centerLeft,
+                ////  child: Text(
+                ////    "Categories",
+                ////    style: GoogleFonts.cairo(
+                ////        fontWeight: FontWeight.w700,
+                ////        fontSize: 22
+                ////    ),
+                ////  ),
+                //),//t
+                const Spacer(),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  physics: const BouncingScrollPhysics(),
+                  child: Wrap(
+                    spacing: 7,
+                    children: categoriesArr.map((i) => CategoryChip(name: i.name)).toList(),
+                  ),
+                ),//category
+                const Spacer(),
+                SizedBox(
+                  height: sh/2.5,
+                  child: SizedBox(
                     height: sh/2.5,
-                    child: SizedBox(
-                      height: sh/2.5,
-                      child: const Text('No Recipes Found'),
+                    child: const Text('No Recipes Found'),
+                  ),
+                ),
+                const Spacer(),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    margin: const EdgeInsets.only(bottom: 20),
+                    alignment: Alignment.center,
+                    height: 65,
+                    width: sw-40,
+                    decoration: BoxDecoration(
+                        color: const Color(0xff121008),
+                        borderRadius: BorderRadius.circular(25),
+                        boxShadow: const [
+                          BoxShadow(
+                              offset: Offset(5, 15),
+                              blurRadius: 20,
+                              spreadRadius: 5,
+                              color: Colors.black26
+                          )
+                        ]
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        IconButton(onPressed: (){}, icon: const Icon(LineIcons.home,color: Colors.white,)),
+                        IconButton(onPressed: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const AddRecipePage()),
+                          );
+                        },
+                          icon: const Icon(
+                            LineIcons.plus,
+                            color: Colors.white,
+                          ),
+                        ),
+                        IconButton(onPressed: (){}, icon: const Icon(LineIcons.road,color: Colors.white,)),
+                        IconButton(onPressed: (){}, icon: const Icon(LineIcons.fileContract,color: Colors.white,)),
+                      ],
                     ),
                   ),
-                  const Spacer(),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                      margin: const EdgeInsets.only(bottom: 20),
-                      alignment: Alignment.center,
-                      height: 65,
-                      width: sw-40,
-                      decoration: BoxDecoration(
-                          color: const Color(0xff121008),
-                          borderRadius: BorderRadius.circular(25),
-                          boxShadow: const [
-                            BoxShadow(
-                                offset: Offset(5, 15),
-                                blurRadius: 20,
-                                spreadRadius: 5,
-                                color: Colors.black26
-                            )
-                          ]
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          IconButton(onPressed: (){}, icon: const Icon(LineIcons.home,color: Colors.white,)),
-                          IconButton(onPressed: (){
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const AddRecipePage()),
-                            );
-                          },
-                            icon: const Icon(
-                              LineIcons.plus,
-                              color: Colors.white,
-                            ),
-                          ),
-                          IconButton(onPressed: (){}, icon: const Icon(LineIcons.road,color: Colors.white,)),
-                          IconButton(onPressed: (){}, icon: const Icon(LineIcons.fileContract,color: Colors.white,)),
-                        ],
-                      ),
-                    ),
-                  ),///Bottom AppBar
-                ],
-              ),
+                ),///Bottom AppBar
+              ],
             );
           } else {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18.0),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(onPressed: (){}, icon: const Icon(LineIcons.list)),
-                      IconButton(onPressed: (){}, icon: const Icon(LineIcons.search)),
-                    ],
-                  ),
-                  const Spacer(),
-                  Align(
+            return Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(onPressed: (){}, icon: const Icon(LineIcons.list)),
+                    IconButton(onPressed: (){}, icon: const Icon(LineIcons.search)),
+                  ],
+                ),
+                const Spacer(),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       'Delicious Recipes',
                       style: GoogleFonts.cairo(
                           fontWeight: FontWeight.w700,
-                          fontSize: 26
+                          fontSize: 32
                       ),
                     ),
-                  ),//title
-                  Align(
+                  ),
+                ),//title
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       'Here You Can Find The Best Recipes.',
                       style: GoogleFonts.cairo(
                         fontWeight: FontWeight.w400,
-                        fontSize: 18,
+                        fontSize: 22,
                       ),
                     ),
-                  ),//subtitle
-                  const Spacer(),
-                  HomePageMainTile(
-                    height: sw/2-50,
-                    title: (snapshot.data!.docs[0].data() as Map<String , dynamic> )['Name'],
-                    subtitle: (snapshot.data!.docs[0].data() as Map<String , dynamic> )['Description'],
                   ),
-                  //const Spacer(),
-                  ////Align(
-                  ////  alignment: Alignment.centerLeft,
-                  ////  child: Text(
-                  ////    "Categories",
-                  ////    style: GoogleFonts.cairo(
-                  ////        fontWeight: FontWeight.w700,
-                  ////        fontSize: 22
-                  ////    ),
-                  ////  ),
-                  //),//t
-                  const Spacer(),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    physics: const BouncingScrollPhysics(),
-                    child: Wrap(
-                      spacing: 7,
-                      children: categoriesArr.map((i) => CategoryChip(name: i.name)).toList(),
-                    ),
-                  ),//category
-                  const Spacer(),
+                ),//subtitle
+                const Spacer(),
+                HomePageMainTile(
+                  height: sw/2-50,
+                  title: (snapshot.data!.docs[0].data() as Map<String , dynamic> )['Name'],
+                  subtitle: (snapshot.data!.docs[0].data() as Map<String , dynamic> )['Description'],
+                ),
+                //const Spacer(),
+                ////Align(
+                ////  alignment: Alignment.centerLeft,
+                ////  child: Text(
+                ////    "Categories",
+                ////    style: GoogleFonts.cairo(
+                ////        fontWeight: FontWeight.w700,
+                ////        fontSize: 22
+                ////    ),
+                ////  ),
+                //),//t
+                const Spacer(),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  physics: const BouncingScrollPhysics(),
+                  child: Wrap(
+                    children: categoriesArr.map((i) => CategoryChip(name: i.name)).toList(),
+                  ),
+                ),//category
+                const Spacer(),
+                SizedBox(
+                  height: sh/2.5,
+                  child: snapshot.data!.docs.isEmpty?
                   SizedBox(
-                    height: sh/2.5,
-                    child: snapshot.data!.docs.isEmpty?
-                    SizedBox(
-                      height: sh/2.7,
-                      child: const Text('No Recipes Found'),
-                    ) :AnimatedList(
+                    height: sh/2.7,
+                    child: const Text('No Recipes Found'),
+                  ) :NotificationListener(
+                    child: AnimatedList(
                       physics: const BouncingScrollPhysics(),
+                      controller: _scrollController,
                       scrollDirection: Axis.horizontal,
                       initialItemCount: snapshot.data!.docs.length,
                       itemBuilder: (BuildContext context, i, animation) {
@@ -241,75 +244,69 @@ class _HomePageState extends State<HomePage> {
                         return SlideTransition(
                           position: animation
                               .drive(Tween(begin: const Offset(1.0, 0.0), end: Offset.zero)),
-                          child: GestureDetector(
-                              onLongPress: () async {
-                                setState(() {
-                                  deleteRecipe(
-                                      context, i, snapshot.data!.docs[i].id);
-                                });
-                              },
-                              onTap: (){
-                                if (kDebugMode) {
-                                  print(data['ImageURL']);
-                                }
-                              },
-                              child: snapshot.data!.docs[i].id.isEmpty
-                                  ? Container()
-                                  : HomePageTile(
-                                key: Key(snapshot.data!.docs[i].id.toString()),
-                                title: data['Name'],
-                                subtitle: data['Description'],
-                                w: sw,
-                                imageURL: data['ImageURL'],
-                              )),
+                          child: snapshot.data!.docs[i].id.isEmpty
+                              ? Container()
+                              : HomePageTile(
+                            key: Key(snapshot.data!.docs[i].id.toString()),
+                            id: snapshot.data!.docs[i].id.toString(),
+                            index: i,
+                            title: data['Name'].toString(),
+                            subtitle: data['Description'].toString(),
+                            w: sw,
+                            imageURL: data['ImageURL'].toString(),
+                          ),
                         );
                       },
                     ),
+                    onNotification: (notification) {
+                        print(_scrollController.position.pixels);
+                      return false;
+                    },
                   ),
-                  const Spacer(),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                      margin: const EdgeInsets.only(bottom: 20),
-                      alignment: Alignment.center,
-                      height: 65,
-                      width: sw-40,
-                      decoration: BoxDecoration(
-                          color: const Color(0xff121008),
-                          borderRadius: BorderRadius.circular(25),
-                          boxShadow: const [
-                            BoxShadow(
-                                offset: Offset(5, 15),
-                                blurRadius: 20,
-                                spreadRadius: 5,
-                                color: Colors.black26
-                            )
-                          ]
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          IconButton(onPressed: (){}, icon: const Icon(LineIcons.home,color: Colors.white,)),
-                          IconButton(onPressed: (){
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const AddRecipePage()),
-                            );
-                            },
-                              icon: const Icon(
-                                LineIcons.plus,
-                                color: Colors.white,
-                              ),
-                          ),
-                          IconButton(onPressed: (){}, icon: const Icon(LineIcons.road,color: Colors.white,)),
-                          IconButton(onPressed: (){}, icon: const Icon(LineIcons.fileContract,color: Colors.white,)),
-                        ],
-                      ),
+                ),
+                const Spacer(),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    margin: const EdgeInsets.only(bottom: 20),
+                    alignment: Alignment.center,
+                    height: 65,
+                    width: sw-40,
+                    decoration: BoxDecoration(
+                        color: const Color(0xff121008),
+                        borderRadius: BorderRadius.circular(25),
+                        boxShadow: const [
+                          BoxShadow(
+                              offset: Offset(5, 15),
+                              blurRadius: 20,
+                              spreadRadius: 5,
+                              color: Colors.black26
+                          )
+                        ]
                     ),
-                  ),///Bottom AppBar
-                ],
-              ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        IconButton(onPressed: (){}, icon: const Icon(LineIcons.home,color: Colors.white,)),
+                        IconButton(onPressed: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const AddRecipePage()),
+                          );
+                          },
+                            icon: const Icon(
+                              LineIcons.plus,
+                              color: Colors.white,
+                            ),
+                        ),
+                        IconButton(onPressed: (){}, icon: const Icon(LineIcons.road,color: Colors.white,)),
+                        IconButton(onPressed: (){}, icon: const Icon(LineIcons.fileContract,color: Colors.white,)),
+                      ],
+                    ),
+                  ),
+                ),///Bottom AppBar
+              ],
             );
           }
           }

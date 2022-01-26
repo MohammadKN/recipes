@@ -283,5 +283,3 @@ class AddRecipePageState extends State<AddRecipePage> {
     );
   }
 }
-
-

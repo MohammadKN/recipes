@@ -50,7 +50,7 @@ class _RegisterPageState extends State<RegisterPage> {
           backgroundColor: Colors.white,
           resizeToAvoidBottomInset: true,
           body: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             child: Container(
               alignment: Alignment.topCenter,
               height: sh,
@@ -66,7 +66,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       onTap: () async {
                         await takePersonalPhoto();
                       },
-                      child: CircleAvatar(
+                      child: const CircleAvatar(
                         backgroundColor: Color(0xFFFF0000),
                         //backgroundImage: FileImage(anonImage),
                         radius: 65,

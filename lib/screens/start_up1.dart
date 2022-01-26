@@ -20,7 +20,7 @@ class _StartUpPage1State extends State<StartUpPage1> with TickerProviderStateMix
   void initState()  {
     startup1AnimationController = AnimationController(
       duration: Duration(milliseconds: 0),
-      reverseDuration: Duration(milliseconds: ForwardDuration),
+      reverseDuration: Duration(milliseconds: forwardDuration),
       vsync: this,
     )..forward();
     super.initState();
@@ -98,12 +98,12 @@ class _StartUpPage1State extends State<StartUpPage1> with TickerProviderStateMix
                             onTap: () async {
                               setState(() {
                                 startup1AnimationController = AnimationController(
-                                  duration: Duration(milliseconds: ForwardDuration),
-                                  reverseDuration: Duration(milliseconds: ForwardDuration),
+                                  duration: Duration(milliseconds: forwardDuration),
+                                  reverseDuration: Duration(milliseconds: forwardDuration),
                                   vsync: this,
                                 )..forward();
                               });
-                              await Future.delayed(Duration(milliseconds: ForwardDuration));
+                              await Future.delayed(Duration(milliseconds: forwardDuration));
                               NavTo(context, StartUpPage2());
                             },
                             child: NextPageBtn(index: 0,),

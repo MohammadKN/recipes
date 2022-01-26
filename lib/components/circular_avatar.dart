@@ -15,16 +15,17 @@ Widget CircularAvatar (double radius, File _recipeImage){
         backgroundImage: FileImage(_recipeImage),
       ),
     );
-  } else
+  } else {
     return GestureDetector(
       onTap: () async {
         await takePhoto();
       },
       child: CircleAvatar(
         radius: radius/11,
-        backgroundImage: NetworkImage(
+        backgroundImage: const NetworkImage(
             'https://firebasestorage.googleapis.com/v0/b/recipes-book-43e17.appspot.com/o/Assets%2FAnonymous.png?alt=media&token=91ce82aa-2620-452d-b6e9-ebbd3afc91f4'),
       ),
     );
+  }
 
 }
