@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,6 +14,8 @@ class RecipePage extends StatefulWidget {
 
 class _RecipePageState extends State<RecipePage> {
 
+  final ScrollController _scrollController = ScrollController();
+  var size = 200.0;
   @override
   Widget build(BuildContext context) {
     var sh = MediaQuery.of(context).size.height;
@@ -20,11 +23,12 @@ class _RecipePageState extends State<RecipePage> {
     return AnnotatedRegion<SystemUiOverlayStyle>(
           value: const SystemUiOverlayStyle(
           statusBarColor: Color(0xFF121008), //i like transparent :-)
-          systemNavigationBarColor: Colors.white, // navigation bar color
+          systemNavigationBarColor: Colors.black, // navigation bar color
           statusBarIconBrightness: Brightness.light, // status bar icons' color
-          systemNavigationBarIconBrightness:Brightness.light, //navigation bar icons' color
+          systemNavigationBarIconBrightness:Brightness.dark, //navigation bar icons' color
       ),
       child:Scaffold(
+        backgroundColor: Colors.white,
         body: Stack(
           children: [
             Hero(
@@ -32,7 +36,10 @@ class _RecipePageState extends State<RecipePage> {
               child: Container(
                 height: sh,
                 width: sw,
-                color: const Color(0xFFF1F1F1),
+                decoration:  BoxDecoration(
+                  color: const Color(0xFFF1F1F1),
+                  borderRadius: BorderRadius.circular(15),
+                ),
               ),
             ),
             Column(
@@ -41,7 +48,7 @@ class _RecipePageState extends State<RecipePage> {
                 Hero(
                   tag: '${widget.id} image',
                   child: Container(
-                    height: sh/2,
+                    height: size.abs(),
                     width: sw,
                     decoration: BoxDecoration(
                       color: Colors.red,
@@ -51,41 +58,63 @@ class _RecipePageState extends State<RecipePage> {
                   ),
                 ),
                  SizedBox(
-                   child: SingleChildScrollView(
-                     physics: BouncingScrollPhysics(),
-                     child: Column(
-                       children: [
-                         Row(
-                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                   height: sh/2,
+                   child: NotificationListener(
+                     child: SingleChildScrollView(
+                       controller: _scrollController,
+                       physics: const BouncingScrollPhysics(),
+                       child: SizedBox(
+                         child: Column(
                            children: [
                              Hero(
                                tag: '${widget.id} title',
-                               child: Align(
-                                 alignment: Alignment.centerLeft,
-                                 child: Padding(
-                                    padding: const EdgeInsets.all(10),
-                                     child: Text(widget.title ?? 'Recipe Name',style: GoogleFonts.cairo(fontWeight: FontWeight.w800,fontSize: 28),),//Title
+                               child: Material(
+                                 type: MaterialType.transparency,
+                                 child: Container(
+                                   child: Align(
+                                     alignment: Alignment.centerLeft,
+                                     child: Padding(
+                                        padding: const EdgeInsets.all(10),
+                                         child: Text(widget.title ?? 'Recipe Name',style: GoogleFonts.cairo(fontWeight: FontWeight.w800,fontSize: 28),),//Title
+                                     ),
+                                   ),
                                  ),
                                ),
                              ),
-                             Hero(
-                                 tag: '${widget.id} rating',
-                                 child: RatingWidget()),
+                             hero(
+                               tag: '${widget.id} subtitle',
+                               widget: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: Text(
+                                    widget.subtitle ?? 'Recipe Name',
+                                    style: GoogleFonts.cairo(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 19
+                                    ),
+                                  ),
+                                ),
+                               ),
+                             ),
+                             SizedBox(height: sh,)
                            ],
                          ),
-                         Hero(
-                           tag: '${widget.id} subtitle',
-                           child: Align(
-                             alignment: Alignment.centerLeft,
-                             child: Padding(
-                               padding: const EdgeInsets.all(10),
-                               child: Text(widget.subtitle ?? 'Recipe Name',style: GoogleFonts.cairo(fontWeight: FontWeight.w400,fontSize: 19),),//Title
-                             ),
-                           ),
-                         ),
-                         SizedBox(height: sh,)
-                       ],
+                       ),
                      ),
+                     onNotification: (notification) {
+                       print(sh);
+                       setState(() {
+                         if (_scrollController.position.pixels<350)
+                           size = (sh/2-_scrollController.position.pixels)/2;
+                         else if (_scrollController.position.pixels<233)
+                           size = sh/2-_scrollController.position.pixels;
+                       });
+                       if (kDebugMode) {
+                         print(_scrollController.position.pixels);
+                       }
+                       return false;
+                     },
                    ),
                  ),
               ],

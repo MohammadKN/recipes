@@ -660,8 +660,18 @@ class HomePageTile extends StatelessWidget {
                       ),
                       const SizedBox(height: 5,),
                       Hero(
-                          tag: '$id title',
-                          child: Text(title ?? 'Recipe Name',style: GoogleFonts.cairo(fontWeight: FontWeight.w600,fontSize: 19),)),//Title
+                        tag: '$id title',
+                        child: Material(
+                          color:Colors.transparent,
+                          child: Text(
+                            title ?? 'Recipe Name',
+                            style: GoogleFonts.cairo(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 19
+                            ),
+                          )
+                        )
+                      ),//Title
                       Hero(
                           tag: '$id subtitle',
                           child: Text(subtitle ?? 'Main Ingredients',style: GoogleFonts.cairo(),)),//main Ingredients
@@ -828,3 +838,22 @@ Future<void> showMyDialog(BuildContext context) async {
     },
   );
 }
+
+class hero extends StatelessWidget {
+  final tag,widget;
+  const hero({Key? key, this.tag, this.widget}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Hero(
+      tag: tag,
+      child: Material(
+        type: MaterialType.transparency,
+        child: Container(
+          child: widget,
+        ),
+      ),
+    );
+  }
+}
+

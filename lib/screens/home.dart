@@ -22,7 +22,6 @@ class _HomePageState extends State<HomePage> {
 
     return firebaseApp;
   }
-  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -233,34 +232,27 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(
                     height: sh/2.7,
                     child: const Text('No Recipes Found'),
-                  ) :NotificationListener(
-                    child: AnimatedList(
-                      physics: const BouncingScrollPhysics(),
-                      controller: _scrollController,
-                      scrollDirection: Axis.horizontal,
-                      initialItemCount: snapshot.data!.docs.length,
-                      itemBuilder: (BuildContext context, i, animation) {
-                        Map<String, dynamic> data = snapshot.data!.docs[i].data() as Map<String, dynamic>;
-                        return SlideTransition(
-                          position: animation
-                              .drive(Tween(begin: const Offset(1.0, 0.0), end: Offset.zero)),
-                          child: snapshot.data!.docs[i].id.isEmpty
-                              ? Container()
-                              : HomePageTile(
-                            key: Key(snapshot.data!.docs[i].id.toString()),
-                            id: snapshot.data!.docs[i].id.toString(),
-                            index: i,
-                            title: data['Name'].toString(),
-                            subtitle: data['Description'].toString(),
-                            w: sw,
-                            imageURL: data['ImageURL'].toString(),
-                          ),
-                        );
-                      },
-                    ),
-                    onNotification: (notification) {
-                        print(_scrollController.position.pixels);
-                      return false;
+                  ) : AnimatedList(
+                    physics: const BouncingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    initialItemCount: snapshot.data!.docs.length,
+                    itemBuilder: (BuildContext context, i, animation) {
+                      Map<String, dynamic> data = snapshot.data!.docs[i].data() as Map<String, dynamic>;
+                      return SlideTransition(
+                        position: animation
+                            .drive(Tween(begin: const Offset(1.0, 0.0), end: Offset.zero)),
+                        child: snapshot.data!.docs[i].id.isEmpty
+                            ? Container()
+                            : HomePageTile(
+                          key: Key(snapshot.data!.docs[i].id.toString()),
+                          id: snapshot.data!.docs[i].id.toString(),
+                          index: i,
+                          title: data['Name'].toString(),
+                          subtitle: data['Description'].toString(),
+                          w: sw,
+                          imageURL: data['ImageURL'].toString(),
+                        ),
+                      );
                     },
                   ),
                 ),
