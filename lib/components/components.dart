@@ -25,7 +25,6 @@ List<Category> categoriesArr = [
   Category('Dinner', true),
 ];
 
-
 class customText extends StatelessWidget {
   final HorPad,  VerPad,  content,  color,  size, weight;
   const customText({Key? key, this.HorPad, this.VerPad, this.content, this.color, this.size, this.weight}) : super(key: key);
@@ -511,7 +510,7 @@ class _CategoryChipState extends State<CategoryChip> {
       },
       child: Container(
         key: Key(widget.name),
-        margin: EdgeInsets.symmetric(horizontal: 7),
+        margin: const EdgeInsets.symmetric(horizontal: 7),
         height: 40,
         width: 90,
         alignment: Alignment.center,
@@ -608,7 +607,7 @@ class HomePageTile extends StatelessWidget {
           margin: const EdgeInsets.symmetric(vertical: 20,horizontal: 10),
           child: Stack(
             children: [
-              Hero(
+              hero(
                 tag: '$id bg',
                 child: Container(
                   alignment: Alignment.topCenter,
@@ -646,9 +645,8 @@ class HomePageTile extends StatelessWidget {
                           ],
                           borderRadius: BorderRadius.circular(90),
                         ),
-                        child: Hero(
+                        child: hero(
                           tag: '$id image',
-                          transitionOnUserGestures: true,
                           child: CircleAvatar(
                             foregroundImage: NetworkImage(
                                 imageURL ?? 'https://firebasestorage.googleapis.com/v0/b/recipes-book-43e17.appspot.com/o/Assets%2FNicePng_plate-of-food-png_546030.png?alt=media&token=c8be3bff-3bfc-4722-8132-26a7643aeb35'),
@@ -659,7 +657,7 @@ class HomePageTile extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 5,),
-                      Hero(
+                      hero(
                         tag: '$id title',
                         child: Material(
                           color:Colors.transparent,
@@ -672,10 +670,10 @@ class HomePageTile extends StatelessWidget {
                           )
                         )
                       ),//Title
-                      Hero(
+                      hero(
                           tag: '$id subtitle',
                           child: Text(subtitle ?? 'Main Ingredients',style: GoogleFonts.cairo(),)),//main Ingredients
-                      Hero(
+                      hero(
                           tag: '$id rating',
                           child: const RatingWidget()),
 
@@ -840,8 +838,8 @@ Future<void> showMyDialog(BuildContext context) async {
 }
 
 class hero extends StatelessWidget {
-  final tag,widget;
-  const hero({Key? key, this.tag, this.widget}) : super(key: key);
+  final tag,child;
+  const hero({Key? key, this.tag, this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -850,7 +848,7 @@ class hero extends StatelessWidget {
       child: Material(
         type: MaterialType.transparency,
         child: Container(
-          child: widget,
+          child: child,
         ),
       ),
     );

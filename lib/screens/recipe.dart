@@ -22,16 +22,16 @@ class _RecipePageState extends State<RecipePage> {
     var sw = MediaQuery.of(context).size.width;
     return AnnotatedRegion<SystemUiOverlayStyle>(
           value: const SystemUiOverlayStyle(
-          statusBarColor: Color(0xFF121008), //i like transparent :-)
-          systemNavigationBarColor: Colors.black, // navigation bar color
-          statusBarIconBrightness: Brightness.light, // status bar icons' color
-          systemNavigationBarIconBrightness:Brightness.dark, //navigation bar icons' color
+          statusBarColor: Color(0xFF121008),
+          systemNavigationBarColor: Colors.black,
+          statusBarIconBrightness: Brightness.light,
+          systemNavigationBarIconBrightness:Brightness.dark,
       ),
       child:Scaffold(
         backgroundColor: Colors.white,
         body: Stack(
           children: [
-            Hero(
+            hero(
               tag: '${widget.id} bg',
               child: Container(
                 height: sh,
@@ -45,7 +45,7 @@ class _RecipePageState extends State<RecipePage> {
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                Hero(
+                hero(
                   tag: '${widget.id} image',
                   child: Container(
                     height: size.abs(),
@@ -61,29 +61,31 @@ class _RecipePageState extends State<RecipePage> {
                    height: sh/2,
                    child: NotificationListener(
                      child: SingleChildScrollView(
+                       primary: false,
                        controller: _scrollController,
                        physics: const BouncingScrollPhysics(),
                        child: SizedBox(
                          child: Column(
                            children: [
-                             Hero(
+                             hero(
                                tag: '${widget.id} title',
-                               child: Material(
-                                 type: MaterialType.transparency,
-                                 child: Container(
-                                   child: Align(
-                                     alignment: Alignment.centerLeft,
-                                     child: Padding(
-                                        padding: const EdgeInsets.all(10),
-                                         child: Text(widget.title ?? 'Recipe Name',style: GoogleFonts.cairo(fontWeight: FontWeight.w800,fontSize: 28),),//Title
-                                     ),
+                                 child: Align(
+                                   alignment: Alignment.centerLeft,
+                                   child: Padding(
+                                     padding: const EdgeInsets.all(10),
+                                     child: Text(
+                                       widget.title ?? 'Recipe Name',
+                                       style: GoogleFonts.cairo(
+                                         fontWeight: FontWeight.w800,
+                                         fontSize: 28
+                                       ),
+                                     ),//Title
                                    ),
                                  ),
-                               ),
                              ),
                              hero(
                                tag: '${widget.id} subtitle',
-                               widget: Align(
+                               child: Align(
                                 alignment: Alignment.centerLeft,
                                 child: Padding(
                                   padding: const EdgeInsets.all(10),
