@@ -50,18 +50,18 @@ class AddRecipePageState extends State<AddRecipePage> {
 
   String personalImageURL = '',cardImageURL = '';
   final picker = ImagePicker();
-  var recipeImage;
+  File? recipeImage;
   Future takePersonalPhoto() async {
     final pickedFile = await picker.pickImage(source: ImageSource.values[0]);
-    setState(() {
-      recipeImage = File(pickedFile!.path);
-    });
+    print(pickedFile!.path);
+    recipeImage = File(pickedFile!.path);
+    print(recipeImage);
   }
   Future pickPersonalPhoto() async {
     final pickedFile = await picker.pickImage(source: ImageSource.values[1]);
-    setState(() {
-      recipeImage = File(pickedFile!.path);
-    });
+    print(pickedFile!.path);
+    recipeImage = File(pickedFile!.path);
+    print(recipeImage);
   }
 
   @override
@@ -75,17 +75,19 @@ class AddRecipePageState extends State<AddRecipePage> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (recipeImage != null)
+
+
+              if (recipeImage != '')
                 GestureDetector(
                   onTap: () async {
                     showMyDialog(context);
                   },
                   child: CircleAvatar(
                     radius: screenHeight/11,
-                    backgroundImage: FileImage(recipeImage),
+                    backgroundImage: FileImage(recipeImage!),
                   ),
                 ),
-              if (recipeImage == null)
+              if (recipeImage == '')
                 GestureDetector(
                   onTap: () async {
                     showMyDialog(context);

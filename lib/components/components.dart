@@ -9,7 +9,7 @@ import 'package:recipes/screens/add_recipe.dart';
 import 'package:recipes/screens/recipe.dart';
 import 'package:recipes/screens/register.dart';
 import '../functions/functions.dart';
-export 'circular_avatar.dart';
+export 'circle_avatar.dart';
 
 class Category {
   String name;

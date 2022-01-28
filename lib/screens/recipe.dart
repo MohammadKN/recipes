@@ -107,10 +107,11 @@ class _RecipePageState extends State<RecipePage> {
                      onNotification: (notification) {
                        print(sh);
                        setState(() {
-                         if (_scrollController.position.pixels<350)
+                         if (_scrollController.position.pixels<350) {
                            size = (sh/2-_scrollController.position.pixels)/2;
-                         else if (_scrollController.position.pixels<233)
+                         } else if (_scrollController.position.pixels<233) {
                            size = sh/2-_scrollController.position.pixels;
+                         }
                        });
                        if (kDebugMode) {
                          print(_scrollController.position.pixels);
