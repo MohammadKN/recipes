@@ -599,7 +599,7 @@ class HomePageTile extends StatelessWidget {
                 context, index, id);
         },
         onTap: (){
-          NavTo(context,  RecipePage(title: title,subtitle: subtitle,imageURL: imageURL,id: id,index: index,));
+          NavTo(context,  NewPage(title: title,subtitle: subtitle,imageURL: imageURL,id: id,index: index,));
         },
         child: Container(
           height: 300,
@@ -850,6 +850,64 @@ class hero extends StatelessWidget {
         child: Container(
           child: child,
         ),
+      ),
+    );
+  }
+}
+
+
+class TagChip extends StatelessWidget {
+  final title;
+  const TagChip({Key? key, this.title}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 1),
+      decoration: BoxDecoration(
+        color: const Color(0x99FFEEB2),
+        borderRadius: BorderRadius.circular(5),
+      ),
+      child: Text(title,style: GoogleFonts.cairo(color:const Color(0xFFFFC700)),),
+    );
+  }
+}
+
+
+class IngTile extends StatelessWidget {
+  final width, height, imageURL, title, amount;
+  const IngTile({Key? key, this.width, this.height, this.imageURL, this.title, this.amount}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: width,
+      height: height,
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 23,
+            backgroundColor: Colors.red,
+            foregroundImage: NetworkImage(imageURL),
+          ),
+          const Spacer(),
+          Text(
+            "$title",
+            style: GoogleFonts.cairo(
+              fontWeight: FontWeight.w600,
+              fontSize:17,
+            ),
+          ),
+          const Spacer(flex: 20,),
+          Text(
+            "$amount",
+            style: GoogleFonts.cairo(
+              fontWeight: FontWeight.w400,
+              fontSize:14,
+              color: Colors.black45,
+            ),
+          ),
+        ],
       ),
     );
   }

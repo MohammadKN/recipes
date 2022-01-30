@@ -54,13 +54,13 @@ class AddRecipePageState extends State<AddRecipePage> {
   Future takePersonalPhoto() async {
     final pickedFile = await picker.pickImage(source: ImageSource.values[0]);
     print(pickedFile!.path);
-    recipeImage = File(pickedFile!.path);
+    recipeImage = File(pickedFile.path);
     print(recipeImage);
   }
   Future pickPersonalPhoto() async {
     final pickedFile = await picker.pickImage(source: ImageSource.values[1]);
     print(pickedFile!.path);
-    recipeImage = File(pickedFile!.path);
+    recipeImage = File(pickedFile.path);
     print(recipeImage);
   }
 
@@ -75,8 +75,6 @@ class AddRecipePageState extends State<AddRecipePage> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-
-
               if (recipeImage != '')
                 GestureDetector(
                   onTap: () async {
