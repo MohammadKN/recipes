@@ -249,6 +249,7 @@ class _HomePageState extends State<HomePage> {
                           title: data['Name'].toString(),
                           subtitle: data['Description'].toString(),
                           w: sw,
+                          h: sh,
                           imageURL: data['ImageURL'].toString(),
                         ),
                       );

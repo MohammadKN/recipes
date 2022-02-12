@@ -141,225 +141,246 @@ class NewPage extends StatelessWidget {
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Stack(
           children: [
-            hero(
-              tag: '$id image',
+            /*hero(
+              tag: '$id bg',
               child: Container(
-                height: s.height/3,
-                width: s.width,
-                decoration: const BoxDecoration(
-                  color: Colors.red,
-                  image: DecorationImage(
-                      image: NetworkImage(
-                          'https://firebasestorage.googleapis.com/v0/b/recipes-book-43e17.appspot.com/o/Assets%2FMansaf.jpg?alt=media&token=173d209a-05e7-41d9-8004-88e66294611b'),
-                      fit: BoxFit.cover
-                  ),
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(15),
-                    bottomRight: Radius.circular(15),
-                  ),
+                height: h,
+                width: w,
+                decoration:  BoxDecoration(
+                  color: const Color(0xFFFFFFFF),
+                  borderRadius: BorderRadius.circular(15),
                 ),
               ),
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.symmetric(vertical: 10),
-                        width: 140,
-                        height: 14,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
-                            Icon(CupertinoIcons.star_fill,color: Colors.amberAccent,),
-                            Icon(CupertinoIcons.star_fill,color: Colors.amberAccent,),
-                            Icon(CupertinoIcons.star_fill,color: Colors.amberAccent,),
-                            Icon(CupertinoIcons.star_fill,color: Colors.amberAccent,),
-                            Icon(CupertinoIcons.star_fill,color: Colors.amberAccent,),
-                          ],
+            ),*/
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                hero(
+                  tag: '$id image',
+                  child: GestureDetector(
+                    onVerticalDragEnd: (v){
+                      print(v.primaryVelocity);
+                      if (v.primaryVelocity! > 1000.0)
+                        Navigator.pop(context);
+                    },
+                    child: Container(
+                      height: s.height/3,
+                      width: s.width,
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        image: DecorationImage(
+                            image: NetworkImage(imageURL),
+                            fit: BoxFit.cover
+                        ),
+                        borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(15),
+                          bottomRight: Radius.circular(15),
                         ),
                       ),
-                      const Text('5.0 (Rated 999)'),
-                    ],
-                  ),
-                  hero(
-                    tag: '$id title',
-                    child: Text(
-                      'Jordanian Mansaf',
-                      style: GoogleFonts.cairo(
-                          fontWeight: FontWeight.w800,
-                          fontSize:20),
                     ),
                   ),
-                  Wrap(
-                    spacing: 5,
-                    children: const [
-                      TagChip(title: 'Rice',),
-                      TagChip(title: 'Launch',),
-                      TagChip(title: 'Cooked Yoghurt',),
-                      TagChip(title: 'Meat',),
-                    ],
-                  ),
-                  Divider(
-                    height: s.height/50,
-                    thickness: 1,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Column(
-                          children: const [
-                            Icon(
-                              CupertinoIcons.person,
-                              size: 45,
-                              color: Colors.black38,
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.symmetric(vertical: 10),
+                            width: 140,
+                            height: 14,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: const [
+                                Icon(CupertinoIcons.star_fill,color: Colors.amberAccent,),
+                                Icon(CupertinoIcons.star_fill,color: Colors.amberAccent,),
+                                Icon(CupertinoIcons.star_fill,color: Colors.amberAccent,),
+                                Icon(CupertinoIcons.star_fill,color: Colors.amberAccent,),
+                                Icon(CupertinoIcons.star_fill,color: Colors.amberAccent,),
+                              ],
                             ),
-                            Text('6 Persons'),
-                          ],
-                        ),
-                        Column(
-                          children: const [
-                            Icon(
-                              CupertinoIcons.clock,
-                              size: 45,
-                              color: Colors.black38,
-                            ),
-                            Text('3h'),
-                          ],
-                        ),
-                        hero(
-                          tag: '$id subtitle',
-                          child: Column(
-                            children: const [
-                              Icon(
-                                CupertinoIcons.timer,
-                                size: 45,
-                                color: Colors.black38,
-                              ),
-                              Text('Hard'),
-                            ],
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Divider(
-                    height: s.height/50,
-                    thickness: 1,
-                  ),
-                  Row(
-                    children: [
-                      const CircleAvatar(
-                        radius: 25,
-                        backgroundColor: Colors.red,
-                        foregroundImage: NetworkImage(
-                            'https://yt3.ggpht.com/ytc/AKedOLQZ41gNDwIZDc6dYQu-b1rgqCVriRiY9nwGPhPomA=s88-c-k-c0x00ffffff-no-rj'),
+                          const Text('5.0 (Rated 999)'),
+                        ],
                       ),
-                      const SizedBox(width: 5,),
-                      RichText(
-                        text: TextSpan(
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: 'Mohammad KN',
-                              style: GoogleFonts.cairo(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 18,
-                                  color: Colors.black
-                              ),
+                      hero(
+                        tag: '$id title',
+                        child: Text(
+                          title ?? 'Recipe Name',
+                          style: GoogleFonts.cairo(
+                              fontWeight: FontWeight.w800,
+                              fontSize:20),
+                        ),
+                      ),
+                      Wrap(
+                        spacing: 5,
+                        children: const [
+                          TagChip(title: 'Rice',),
+                          TagChip(title: 'Launch',),
+                          TagChip(title: 'Cooked Yoghurt',),
+                          TagChip(title: 'Meat',),
+                        ],
+                      ),
+                      Divider(
+                        height: s.height/50,
+                        thickness: 1,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 5),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Column(
+                              children: const [
+                                Icon(
+                                  CupertinoIcons.person,
+                                  size: 45,
+                                  color: Colors.black38,
+                                ),
+                                Text('6 Persons'),
+                              ],
                             ),
-                            const TextSpan(text: '\n',),
-                            TextSpan(
-                              text: '1 Recipe',
-                              style: GoogleFonts.cairo(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize:14,
-                                  color: Colors.black45,
-                                  height: 0.7
+                            Column(
+                              children: const [
+                                Icon(
+                                  CupertinoIcons.clock,
+                                  size: 45,
+                                  color: Colors.black38,
+                                ),
+                                Text('3h'),
+                              ],
+                            ),
+                            hero(
+                              tag: '$id subtitle',
+                              child: Column(
+                                children:  [
+                                  const Icon(
+                                    CupertinoIcons.timer,
+                                    size: 45,
+                                    color: Colors.black38,
+                                  ),
+                                  Text(subtitle=='null' ? 'Difficulty' : subtitle),
+                                ],
                               ),
                             ),
                           ],
                         ),
+                      ),
+                      Divider(
+                        height: s.height/50,
+                        thickness: 1,
+                      ),
+                      Row(
+                        children: [
+                          const CircleAvatar(
+                            radius: 25,
+                            backgroundColor: Colors.red,
+                            foregroundImage: NetworkImage(
+                                'https://yt3.ggpht.com/ytc/AKedOLQZ41gNDwIZDc6dYQu-b1rgqCVriRiY9nwGPhPomA=s88-c-k-c0x00ffffff-no-rj'),
+                          ),
+                          const SizedBox(width: 5,),
+                          RichText(
+                            text: TextSpan(
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: 'Mohammad KN',
+                                  style: GoogleFonts.cairo(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 18,
+                                      color: Colors.black
+                                  ),
+                                ),
+                                const TextSpan(text: '\n',),
+                                TextSpan(
+                                  text: '1 Recipe',
+                                  style: GoogleFonts.cairo(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize:14,
+                                      color: Colors.black45,
+                                      height: 0.7
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                      Divider(
+                        thickness: 1,
+                        height: s.height/50,
+                      ),
+                      Text(
+                        'Ingredients',
+                        style: GoogleFonts.cairo(
+                          fontWeight: FontWeight.w600,
+                          fontSize:20,
+                        ),
+                      ),
+                      Column(
+                        children: [
+                          IngTile(
+                            width: s.width*0.88,
+                            height: 55.0,
+                            title: 'Meat',
+                            amount: '2 Kilograms',
+                            imageURL: 'https://chikplaza.com/wp-content/uploads/2017/09/Mutton-Mix-Assorted-Curry-Cut_STP3627-1.jpg',
+                          ),
+                          Divider(
+                            height: s.height/50,
+                            thickness: 1,
+                          ),
+                          IngTile(
+                            width: s.width*0.88,
+                            height: 55.0,
+                            title: 'Rice',
+                            amount: '1200 Grams',
+                            imageURL: 'https://cdn.loveandlemons.com/wp-content/uploads/2020/03/how-to-cook-rice.jpg',
+                          ),
+                          Divider(
+                            height: s.height/50,
+                            thickness: 1,
+                          ),
+                          IngTile(
+                            width: s.width*0.88,
+                            height: 55.0,
+                            title: 'Yoghurt',
+                            amount: '2 Kilograms',
+                            imageURL: 'https://sahhawhana.com/mwfiles/thumbs/fit630x300/8496/1591226919/%D8%B7%D8%B1%D9%8A%D9%82%D8%A9_%D8%AA%D8%AD%D8%B6%D9%8A%D8%B1_%D8%A7%D9%84%D9%84%D8%A8%D9%86_%D8%A7%D9%84%D8%B1%D8%A7%D9%8A%D8%A8.jpg',
+                          ),
+                          Divider(
+                            height: s.height/50,
+                            thickness: 1,
+                          ),
+                          IngTile(
+                            width: s.width*0.88,
+                            height: 55.0,
+                            title: 'Almond',
+                            amount: '150 Grams',
+                            imageURL: 'https://cdn.mos.cms.futurecdn.net/oDh2aBTkP5md9yoQLW7js.jpg',
+                          ),
+                          Divider(
+                            height: s.height/50,
+                            thickness: 1,
+                          ),
+                          IngTile(
+                            width: s.width*0.88,
+                            height: 55.0,
+                            title: 'Saj Bread',
+                            amount: '2 Loaves',
+                            imageURL: 'https://www.tareekaa.com/wp-content/uploads/2019/01/%D8%AE%D8%A8%D8%B2-%D8%A7%D9%84%D8%B5%D8%A7%D8%AC-%D9%84%D9%84%D8%B4%D8%A7%D9%88%D8%B1%D9%85%D8%A7.jpg',
+                          ),
+                        ],
                       )
                     ],
                   ),
-                  Divider(
-                    thickness: 1,
-                    height: s.height/50,
-                  ),
-                  Text(
-                    'Ingredients',
-                    style: GoogleFonts.cairo(
-                      fontWeight: FontWeight.w600,
-                      fontSize:20,
-                    ),
-                  ),
-                  Column(
-                    children: [
-                      IngTile(
-                        width: s.width*0.88,
-                        height: 55.0,
-                        title: 'Meat',
-                        amount: '2 Kilograms',
-                        imageURL: 'https://chikplaza.com/wp-content/uploads/2017/09/Mutton-Mix-Assorted-Curry-Cut_STP3627-1.jpg',
-                      ),
-                      Divider(
-                        height: s.height/50,
-                        thickness: 1,
-                      ),
-                      IngTile(
-                        width: s.width*0.88,
-                        height: 55.0,
-                        title: 'Rice',
-                        amount: '1200 Grams',
-                        imageURL: 'https://cdn.loveandlemons.com/wp-content/uploads/2020/03/how-to-cook-rice.jpg',
-                      ),
-                      Divider(
-                        height: s.height/50,
-                        thickness: 1,
-                      ),
-                      IngTile(
-                        width: s.width*0.88,
-                        height: 55.0,
-                        title: 'Yoghurt',
-                        amount: '2 Kilograms',
-                        imageURL: 'https://sahhawhana.com/mwfiles/thumbs/fit630x300/8496/1591226919/%D8%B7%D8%B1%D9%8A%D9%82%D8%A9_%D8%AA%D8%AD%D8%B6%D9%8A%D8%B1_%D8%A7%D9%84%D9%84%D8%A8%D9%86_%D8%A7%D9%84%D8%B1%D8%A7%D9%8A%D8%A8.jpg',
-                      ),
-                      Divider(
-                        height: s.height/50,
-                        thickness: 1,
-                      ),
-                      IngTile(
-                        width: s.width*0.88,
-                        height: 55.0,
-                        title: 'Almond',
-                        amount: '150 Grams',
-                        imageURL: 'https://cdn.mos.cms.futurecdn.net/oDh2aBTkP5md9yoQLW7js.jpg',
-                      ),
-                      Divider(
-                        height: s.height/50,
-                        thickness: 1,
-                      ),
-                      IngTile(
-                        width: s.width*0.88,
-                        height: 55.0,
-                        title: 'Saj Bread',
-                        amount: '2 Loaves',
-                        imageURL: 'https://www.tareekaa.com/wp-content/uploads/2019/01/%D8%AE%D8%A8%D8%B2-%D8%A7%D9%84%D8%B5%D8%A7%D8%AC-%D9%84%D9%84%D8%B4%D8%A7%D9%88%D8%B1%D9%85%D8%A7.jpg',
-                      ),
-                    ],
-                  )
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         ),
