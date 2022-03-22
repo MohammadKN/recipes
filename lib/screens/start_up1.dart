@@ -19,8 +19,8 @@ class _StartUpPage1State extends State<StartUpPage1> with TickerProviderStateMix
   @override
   void initState()  {
     startup1AnimationController = AnimationController(
-      duration: Duration(milliseconds: 0),
-      reverseDuration: Duration(milliseconds: forwardDuration),
+      duration: const Duration(milliseconds: 0),
+      reverseDuration: const Duration(milliseconds: forwardDuration),
       vsync: this,
     )..forward();
     super.initState();
@@ -42,12 +42,12 @@ class _StartUpPage1State extends State<StartUpPage1> with TickerProviderStateMix
           children: [
             Column(
               children: [
-                Spacer(flex: 130,),
+                const Spacer(flex: 130,),
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Spacer(),
+                    const Spacer(),
                     Expanded(
                       flex: 12,
                       child: AnimatedBuilder(
@@ -67,7 +67,7 @@ class _StartUpPage1State extends State<StartUpPage1> with TickerProviderStateMix
                               BoxShadow(
                                 color: Colors.black.withOpacity(0.25),
                                 blurRadius: 0,
-                                offset: Offset(1,1),
+                                offset: const Offset(1,1),
                                 spreadRadius: 0,
                               ),
                             ],
@@ -76,44 +76,41 @@ class _StartUpPage1State extends State<StartUpPage1> with TickerProviderStateMix
                         ),
                       ),
                     ),
-                    Spacer(flex: 1,),
+                    const Spacer(flex: 1,),
                   ],
                 ),
-                Spacer(flex: 3,),
+                const Spacer(flex: 3,),
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Spacer(),
+                    const Spacer(),
                     Expanded(
                       flex: 12,
-                      child: AnimatedBuilder(
-                          animation: startup1AnimationController,
-                          builder: (BuildContext context, Widget? child) {
-                            return Transform.translate(
-                              offset: Offset(0.0, startup1AnimationController.value*225),
-                              child: child,);
+                      child: AnimatedOpacity(
+                        duration: const Duration(milliseconds: 700),
+                        curve: Curves.bounceIn,
+                        opacity: _opacity,
+                        child: GestureDetector(
+                          onTap: () async {
+                            setState(() {
+                              startup1AnimationController = AnimationController(
+                                duration: const Duration(milliseconds: forwardDuration),
+                                reverseDuration: const Duration(milliseconds: forwardDuration),
+                                vsync: this,
+                              )..forward();
+                            });
+                            await Future.delayed(const Duration(milliseconds: forwardDuration));
+                            NavTo(context, StartUpPage2());
                           },
-                          child: GestureDetector(
-                            onTap: () async {
-                              setState(() {
-                                startup1AnimationController = AnimationController(
-                                  duration: Duration(milliseconds: forwardDuration),
-                                  reverseDuration: Duration(milliseconds: forwardDuration),
-                                  vsync: this,
-                                )..forward();
-                              });
-                              await Future.delayed(Duration(milliseconds: forwardDuration));
-                              NavTo(context, StartUpPage2());
-                            },
-                            child: NextPageBtn(index: 0,),
-                          ),
+                          child: const NextPageBtn(index: 0,),
+                        ),
                       ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                   ],
                 ),
-                Spacer(flex: 10,),
+                const Spacer(flex: 10,),
               ],
             ),
             Positioned(
@@ -130,7 +127,7 @@ class _StartUpPage1State extends State<StartUpPage1> with TickerProviderStateMix
                       offset: Offset(0.0, startup1AnimationController.value*-200),
                       child: child,);
                   },
-                  child: CustomizableText(
+                  child: const CustomizableText(
                     content: "SKIP",
                     fontWeight: FontWeight.w600,
                     fontSize: 25.0,

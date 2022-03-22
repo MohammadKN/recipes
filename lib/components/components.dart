@@ -599,7 +599,7 @@ class HomePageTile extends StatelessWidget {
                 context, index, id);
         },
         onTap: (){
-          NavTo(context,  NewPage(title: title, subtitle: subtitle, imageURL: imageURL, id: id, index: index, h: h, w: w,));
+          NavTo(context,  RecipePage(title: title, subtitle: subtitle, imageURL: imageURL, id: id, index: index, h: h, w: w,));
         },
         child: Container(
           height: 300,
